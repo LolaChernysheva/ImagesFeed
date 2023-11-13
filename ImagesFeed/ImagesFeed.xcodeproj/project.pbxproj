@@ -56,15 +56,23 @@
 		F334A59D2B0219B9007408F8 /* ImagesFeed */ = {
 			isa = PBXGroup;
 			children = (
+				F334A5B22B021B30007408F8 /* Resources */,
 				F334A59E2B0219B9007408F8 /* AppDelegate.swift */,
 				F334A5A02B0219B9007408F8 /* SceneDelegate.swift */,
 				F334A5A22B0219B9007408F8 /* ViewController.swift */,
 				F334A5A42B0219B9007408F8 /* Main.storyboard */,
-				F334A5A72B0219BB007408F8 /* Assets.xcassets */,
 				F334A5A92B0219BB007408F8 /* LaunchScreen.storyboard */,
 				F334A5AC2B0219BB007408F8 /* Info.plist */,
 			);
 			path = ImagesFeed;
+			sourceTree = "<group>";
+		};
+		F334A5B22B021B30007408F8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F334A5A72B0219BB007408F8 /* Assets.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
