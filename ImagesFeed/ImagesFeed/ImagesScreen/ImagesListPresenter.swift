@@ -64,6 +64,4 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     func setup() {
         render()
     }
-    
-    
 }
