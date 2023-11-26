@@ -61,10 +61,10 @@ final class ImagesListViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Metrics.insets),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metrics.insets),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Metrics.insets),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Metrics.insets)
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -123,8 +123,4 @@ extension ImagesListViewController: ImagesListViewProtocol {
     func displayData(data: ImagesListScreenModel, reloadData: Bool) {
         screenModel = data
     }
-}
-
-fileprivate struct Metrics {
-    static let insets: CGFloat = 16
 }

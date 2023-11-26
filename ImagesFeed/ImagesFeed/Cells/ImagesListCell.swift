@@ -123,8 +123,8 @@ final class ImagesListCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             image.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Metrics.imageInsets),
-            image.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            image.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            image.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Metrics.leadingTrailingInsets),
+            image.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metrics.leadingTrailingInsets),
             image.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -Metrics.imageInsets),
         ])
     }
@@ -173,4 +173,5 @@ fileprivate struct Metrics {
     static let buttonWidthHeight: CGFloat = 44
     static let cornerRadius: CGFloat = 16
     static let imageInsets: CGFloat = 4
+    static let leadingTrailingInsets: CGFloat = 16
 }
