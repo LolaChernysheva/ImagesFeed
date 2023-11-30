@@ -11,7 +11,7 @@ import UIKit
 protocol ImagesListPresenterProtocol: AnyObject {
     var view: ImagesListViewProtocol? { get }
     func setup()
-    
+    func showDetail(index: Int)
 }
 
 class ImagesListPresenter: ImagesListPresenterProtocol {
@@ -28,9 +28,11 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     }()
 
     weak var view: ImagesListViewProtocol?
+    var coordinator: CoordinatorProtocol?
     
-    init(view: ImagesListViewProtocol) {
+    init(view: ImagesListViewProtocol?, coordinator: CoordinatorProtocol?) {
         self.view = view
+        self.coordinator = coordinator
     }
     
     private func buildScreenModel() -> ImagesListScreenModel {
@@ -58,10 +60,13 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
         view?.displayData(data: buildScreenModel(), reloadData: reloadTableData)
     }
     
-    
     //MARK: - ImagesListPresenterProtocol
 
     func setup() {
         render()
+    }
+    
+    func showDetail(index: Int) {
+        coordinator?.showDetail(forImageNamed: photosNames[index]) //MARK: - TODO
     }
 }

@@ -103,7 +103,7 @@ extension ImagesListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("selected")
+        presenter.showDetail(index: indexPath.row)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

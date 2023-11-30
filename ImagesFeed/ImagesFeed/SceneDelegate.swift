@@ -17,13 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         window = UIWindow(windowScene: windowScene)
-
-        let imagesViewController = ImagesListViewController()
-        let presenter = ImagesListPresenter(view: imagesViewController)
-        imagesViewController.presenter = presenter
-
-        window?.rootViewController = imagesViewController
-
+        window?.rootViewController = Assembler.createTabBarController()
         window?.makeKeyAndVisible()
     }
 
