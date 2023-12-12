@@ -116,7 +116,9 @@ extension SingleImageViewController: SingleImageViewProtocol {
     }
     
     func showActivityController() {
-        let activityViewController = UIActivityViewController(activityItems: [], applicationActivities: nil)
+        guard let image = imageView.image else { return }
+        let items = [image]
+        let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
         present(activityViewController, animated: true, completion: nil)
     }
 }
