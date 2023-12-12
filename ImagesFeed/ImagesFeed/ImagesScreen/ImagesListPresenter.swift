@@ -11,7 +11,6 @@ import UIKit
 protocol ImagesListPresenterProtocol: AnyObject {
     var view: ImagesListViewProtocol? { get }
     func setup()
-    func showDetail(index: Int)
 }
 
 class ImagesListPresenter: ImagesListPresenterProtocol {
@@ -42,8 +41,9 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
                 imageName: imageName,
                 text: dateFormatter.string(from: Date()) ,
                 likeImageName: likeImageName,
-                action: {
-                    //MARK: - TODO
+                completion: { [ weak self ] in
+                    guard let self = self else { return }
+                    self.coordinator?.showDetail(forImageNamed: imageName)
                 }, likeAction: {
                     //MARK: - TODO
                 })
@@ -64,9 +64,5 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
 
     func setup() {
         render()
-    }
-    
-    func showDetail(index: Int) {
-        coordinator?.showDetail(forImageNamed: photosNames[index]) //MARK: - TODO
     }
 }

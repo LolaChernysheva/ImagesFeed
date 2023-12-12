@@ -23,6 +23,8 @@
 		F3A3AC3C2B0510E7004DFA6F /* ImagesListScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A3AC3B2B0510E7004DFA6F /* ImagesListScreenModel.swift */; };
 		F3A3AC3E2B0510FC004DFA6F /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A3AC3D2B0510FB004DFA6F /* ImagesListViewController.swift */; };
 		F3A3AC442B051A9E004DFA6F /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A3AC432B051A9E004DFA6F /* ImagesListCell.swift */; };
+		F3FDC36E2B289DEC00310808 /* SingleImagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FDC36D2B289DEC00310808 /* SingleImagePresenter.swift */; };
+		F3FDC3702B289FEC00310808 /* SingleImageScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FDC36F2B289FEC00310808 /* SingleImageScreenModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		F3A3AC3B2B0510E7004DFA6F /* ImagesListScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListScreenModel.swift; sourceTree = "<group>"; };
 		F3A3AC3D2B0510FB004DFA6F /* ImagesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListViewController.swift; sourceTree = "<group>"; };
 		F3A3AC432B051A9E004DFA6F /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		F3FDC36D2B289DEC00310808 /* SingleImagePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImagePresenter.swift; sourceTree = "<group>"; };
+		F3FDC36F2B289FEC00310808 /* SingleImageScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageScreenModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +135,8 @@
 			isa = PBXGroup;
 			children = (
 				F38848602B18D266001B9869 /* SingleImageViewController.swift */,
+				F3FDC36D2B289DEC00310808 /* SingleImagePresenter.swift */,
+				F3FDC36F2B289FEC00310808 /* SingleImageScreenModel.swift */,
 			);
 			path = SingleImage;
 			sourceTree = "<group>";
@@ -230,7 +236,9 @@
 				F38848592B18A892001B9869 /* ProfileModel.swift in Sources */,
 				F3A3AC3A2B0510D9004DFA6F /* ImagesListPresenter.swift in Sources */,
 				F388485C2B18AEFB001B9869 /* Assembler.swift in Sources */,
+				F3FDC36E2B289DEC00310808 /* SingleImagePresenter.swift in Sources */,
 				F38848612B18D266001B9869 /* SingleImageViewController.swift in Sources */,
+				F3FDC3702B289FEC00310808 /* SingleImageScreenModel.swift in Sources */,
 				F310499F2B0B9DEC00A9D7E2 /* UIColor+Extensions.swift in Sources */,
 				F38848572B18A883001B9869 /* ProfilePresenter.swift in Sources */,
 				F388485E2B18D047001B9869 /* Coordinator.swift in Sources */,

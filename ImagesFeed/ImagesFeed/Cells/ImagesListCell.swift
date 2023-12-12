@@ -13,7 +13,7 @@ struct ImageCellViewModel {
     let text: String
     let likeImageName: String
     
-    let action: (() -> (Void))?
+    let completion: () -> (Void)
     let likeAction: (() -> Void)?
 }
 
@@ -53,7 +53,7 @@ final class ImagesListCell: UITableViewCell {
     private lazy var likeButton = UIButton()
     private var gradientLayer: CAGradientLayer?
     
-    private var action: (() -> Void)?
+    private var completion: (() -> Void)?
     private var likeAction: (() -> Void)?
     
     
@@ -62,7 +62,7 @@ final class ImagesListCell: UITableViewCell {
             image.image = UIImage(named: viewModel?.imageName ?? "")
             label.text = viewModel?.text
             likeButton.setImage(UIImage(named: viewModel?.likeImageName ?? ""), for: .normal)
-            action = viewModel?.action
+            completion = viewModel?.completion
             likeAction = viewModel?.likeAction
         }
     }

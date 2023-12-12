@@ -45,7 +45,7 @@ final class Assembler {
     }
     
     static func createSingleImegeModule(withImageNamed imageName: String) -> UIViewController {
-        let singleImageController = SingleImageViewController(imageName: imageName)
+        let singleImageController = SingleImageViewController()
         return singleImageController
     }
 }

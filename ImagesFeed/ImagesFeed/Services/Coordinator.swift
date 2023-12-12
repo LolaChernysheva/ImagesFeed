@@ -20,7 +20,11 @@ final class MainCoordinator: CoordinatorProtocol {
     }
     
     func showDetail(forImageNamed imageName: String) {
-        let detailViewController = Assembler.createSingleImegeModule(withImageNamed: imageName)
+        let model = SingleImageScreenModel(imageName: imageName, sharedImageName: "Sharing")
+        let detailViewController = SingleImageViewController()
+        let presenter = SingleImagePresenter(view: detailViewController, model: model)
+        detailViewController.presenter = presenter
+        detailViewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(detailViewController, animated: true)
     }
 }
