@@ -10,7 +10,7 @@ import UIKit
 
 protocol SingleImagePresenterProtocol: AnyObject {
     init(view: SingleImageViewProtocol, model: SingleImageScreenModel)
-    func viewDidLoad()
+    func prepareView()
     func shareButtonTapped()
 }
 
@@ -24,7 +24,7 @@ final class SingleImagePresenter: SingleImagePresenterProtocol {
         self.model = model
     }
     
-    func viewDidLoad() {
+    func prepareView() {
         view?.displayImage(named: model.imageName)
     }
     

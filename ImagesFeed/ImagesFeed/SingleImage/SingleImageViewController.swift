@@ -35,7 +35,7 @@ final class SingleImageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        presenter.viewDidLoad()
+        presenter.prepareView()
         sharedButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
     }
     
