@@ -30,7 +30,7 @@ final class Assembler {
                                                         selectedImage: UIImage(systemName: "square.stack.fill"))
         tabBarController.tabBar.tintColor = UIColor.ypWhite
         tabBarController.tabBar.backgroundImage = UIImage()
-        tabBarController.viewControllers = [profileViewController, imagesViewController]
+        tabBarController.viewControllers = [imagesViewController, profileViewController]
 
         return tabBarController
     }
