@@ -8,9 +8,13 @@
 
 import UIKit
 
+fileprivate struct Metrics {
+    static let shareButtonSize: CGFloat = 50
+}
+
 protocol SingleImageViewProtocol: AnyObject {
-    func displayImage(named: String)
     func showActivityController()
+    func displayData(data: SingleImageScreenModel)
 }
 
 final class SingleImageViewController: UIViewController {
@@ -21,26 +25,31 @@ final class SingleImageViewController: UIViewController {
         return photoView
     }()
     
-    private let sharedButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "Sharing"), for: .normal)
-        return button
-    }()
+    private let sharedButton = UIButton()
     
     private let scrollView = UIScrollView()
     
-    
     var presenter: SingleImagePresenterProtocol!
+    
+    private var screenModel: SingleImageScreenModel = .empty {
+        didSet {
+            setup()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        presenter.prepareView()
+        presenter.setup()
         sharedButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
     }
     
+    private func setup() {
+        sharedButton.setImage(UIImage(named: screenModel.sharedImageName), for: .normal)
+        imageView.image = UIImage(named: screenModel.imageName)
+    }
+    
     private func setupView() {
-        
         view.addSubview(scrollView)
         scrollView.addSubview(imageView)
         view.addSubview(sharedButton)
@@ -94,24 +103,20 @@ final class SingleImageViewController: UIViewController {
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-}
-
-extension SingleImageViewController: SingleImageViewProtocol {
-    func displayImage(named: String) {
-        imageView.image = UIImage(named: named)
-    }
-    
-    func showActivityController() {
-        
-        let activityViewController = UIActivityViewController(activityItems: [], applicationActivities: nil)
-        present(activityViewController, animated: true, completion: nil)
-    }
     
     @objc private func shareButtonTapped() {
         presenter.shareButtonTapped()
     }
 }
 
-fileprivate struct Metrics {
-    static let shareButtonSize: CGFloat = 50
+extension SingleImageViewController: SingleImageViewProtocol {
+    
+    func displayData(data: SingleImageScreenModel) {
+        screenModel = data
+    }
+    
+    func showActivityController() {
+        let activityViewController = UIActivityViewController(activityItems: [], applicationActivities: nil)
+        present(activityViewController, animated: true, completion: nil)
+    }
 }

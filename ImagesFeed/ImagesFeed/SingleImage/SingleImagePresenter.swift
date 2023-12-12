@@ -9,23 +9,38 @@
 import UIKit
 
 protocol SingleImagePresenterProtocol: AnyObject {
-    init(view: SingleImageViewProtocol, model: SingleImageScreenModel)
-    func prepareView()
+    var view: SingleImageViewProtocol? { get }
+    func setup()
     func shareButtonTapped()
 }
 
-final class SingleImagePresenter: SingleImagePresenterProtocol {
+final class SingleImagePresenter {
     
     weak var view: SingleImageViewProtocol?
-    var model: SingleImageScreenModel
+    var model: SingleImageScreenModel = .empty
+    var imageName: String
     
-    required init(view: SingleImageViewProtocol, model: SingleImageScreenModel) {
+    init(view: SingleImageViewProtocol?, imageName: String) {
         self.view = view
-        self.model = model
+        self.imageName = imageName
     }
     
-    func prepareView() {
-        view?.displayImage(named: model.imageName)
+    private func buildScreenModel() -> SingleImageScreenModel {
+        .init(
+            imageName: imageName,
+            sharedImageName: "Sharing"
+        )
+    }
+
+    private func render() {
+        view?.displayData(data: buildScreenModel())
+    }
+    
+}
+
+extension SingleImagePresenter: SingleImagePresenterProtocol {
+    func setup() {
+        render()
     }
     
     func shareButtonTapped() {
