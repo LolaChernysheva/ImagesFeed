@@ -10,6 +10,7 @@ import UIKit
 
 protocol CoordinatorProtocol {
     func showDetail(forImageNamed imageName: String)
+    func showWebView()
 }
 
 final class MainCoordinator: CoordinatorProtocol {
@@ -25,5 +26,11 @@ final class MainCoordinator: CoordinatorProtocol {
         detailViewController.presenter = presenter
         detailViewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(detailViewController, animated: true)
+    }
+    
+    func showWebView() {
+        let webView = WebViewViewController()
+        webView.modalPresentationStyle = .fullScreen
+        navigationController.pushViewController(webView, animated: true)
     }
 }

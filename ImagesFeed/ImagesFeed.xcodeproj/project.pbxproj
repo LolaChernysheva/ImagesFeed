@@ -36,6 +36,12 @@
 		F334A5A72B0219BB007408F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F334A5AA2B0219BB007408F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F334A5AC2B0219BB007408F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F384FD602B2B129500889648 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F384FD632B2B20CA00889648 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		F384FD652B2B20D600889648 /* AuthScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreenModel.swift; sourceTree = "<group>"; };
+		F384FD672B2B20E400889648 /* AuthPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPresenter.swift; sourceTree = "<group>"; };
+		F384FD692B2B3DF600889648 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
+		F384FD6E2B2B55D200889648 /* Unsplash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unsplash.swift; sourceTree = "<group>"; };
 		F38848542B18A876001B9869 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F38848562B18A883001B9869 /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
 		F38848582B18A892001B9869 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
@@ -88,6 +94,8 @@
 		F334A59D2B0219B9007408F8 /* ImagesFeed */ = {
 			isa = PBXGroup;
 			children = (
+				F384FD6D2B2B55BF00889648 /* Models */,
+				F384FD622B2B20BB00889648 /* Auth */,
 				F388485F2B18D259001B9869 /* SingleImage */,
 				F388485A2B18AEE3001B9869 /* Services */,
 				F38848532B18A85A001B9869 /* Profile */,
@@ -110,6 +118,25 @@
 				F334A5A72B0219BB007408F8 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		F384FD622B2B20BB00889648 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				F384FD632B2B20CA00889648 /* AuthViewController.swift */,
+				F384FD652B2B20D600889648 /* AuthScreenModel.swift */,
+				F384FD672B2B20E400889648 /* AuthPresenter.swift */,
+				F384FD692B2B3DF600889648 /* WebViewViewController.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		F384FD6D2B2B55BF00889648 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F384FD6E2B2B55D200889648 /* Unsplash.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		F38848532B18A85A001B9869 /* Profile */ = {
@@ -230,7 +257,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F384FD6F2B2B55D200889648 /* Unsplash.swift in Sources */,
 				F334A59F2B0219B9007408F8 /* AppDelegate.swift in Sources */,
+				F384FD682B2B20E400889648 /* AuthPresenter.swift in Sources */,
 				F3A3AC3E2B0510FC004DFA6F /* ImagesListViewController.swift in Sources */,
 				F3A3AC3C2B0510E7004DFA6F /* ImagesListScreenModel.swift in Sources */,
 				F38848592B18A892001B9869 /* ProfileModel.swift in Sources */,
@@ -238,6 +267,8 @@
 				F388485C2B18AEFB001B9869 /* Assembler.swift in Sources */,
 				F3FDC36E2B289DEC00310808 /* SingleImagePresenter.swift in Sources */,
 				F38848612B18D266001B9869 /* SingleImageViewController.swift in Sources */,
+				F384FD6A2B2B3DF600889648 /* WebViewViewController.swift in Sources */,
+				F384FD642B2B20CA00889648 /* AuthViewController.swift in Sources */,
 				F3FDC3702B289FEC00310808 /* SingleImageScreenModel.swift in Sources */,
 				F310499F2B0B9DEC00A9D7E2 /* UIColor+Extensions.swift in Sources */,
 				F38848572B18A883001B9869 /* ProfilePresenter.swift in Sources */,
@@ -245,6 +276,7 @@
 				F334A5A12B0219B9007408F8 /* SceneDelegate.swift in Sources */,
 				F38848552B18A876001B9869 /* ProfileViewController.swift in Sources */,
 				F3A3AC442B051A9E004DFA6F /* ImagesListCell.swift in Sources */,
+				F384FD662B2B20D600889648 /* AuthScreenModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +426,7 @@
 				DEVELOPMENT_TEAM = UBQJ28VPV8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ImagesFeed/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ImagesFeed;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -426,6 +459,7 @@
 				DEVELOPMENT_TEAM = UBQJ28VPV8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ImagesFeed/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ImagesFeed;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

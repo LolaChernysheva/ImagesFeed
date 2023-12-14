@@ -48,4 +48,13 @@ final class Assembler {
         let singleImageController = SingleImageViewController()
         return singleImageController
     }
+    
+    static func createAuthController() -> UIViewController {
+        let authController = AuthViewController()
+        let navigationController = UINavigationController(rootViewController: authController)
+        let coordinator = MainCoordinator(navigationController: navigationController)
+        let presenter = AuthPresenter(view: authController, coordinator: coordinator)
+        authController.presenter = presenter
+        return navigationController
+    }
 }
