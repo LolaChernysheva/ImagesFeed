@@ -1,5 +1,5 @@
 //
-//  Unsplash.swift
+//  OAuthTokenResponseBody.swift
 //  ImagesFeed
 //
 //  Created by Lolita Chernysheva on 14.12.2023.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Unsplash: Codable {
+struct OAuthTokenResponseBody: Codable {
     let accessToken: String
     let tokenType: String
     let scope: String
