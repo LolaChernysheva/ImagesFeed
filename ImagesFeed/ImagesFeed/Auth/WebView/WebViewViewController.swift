@@ -14,13 +14,17 @@ protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) //пользователь нажал кнопку назад и отменил авторизацию
 }
 
+protocol WebViewProtocol: AnyObject {
+    func loadRequest(request: URLRequest)
+}
+
 final class WebViewViewController: UIViewController {
     
     private var webView = WKWebView()
-    private let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     private var progressView = UIProgressView()
     
     weak var delegate: WebViewViewControllerDelegate?
+    var presenter: WebViewPresenter!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -35,30 +39,14 @@ final class WebViewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setupURL()
+        presenter.setupURL()
         webView.navigationDelegate = self
-        delegate = self
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         webView.removeObserver(self, forKeyPath:
         #keyPath(WKWebView.estimatedProgress), context: nil)
-    }
-        
-    //MARK: - temp
-    private func setupURL() {
-        var urlComponents = URLComponents(string: unsplashAuthorizeURLString)!
-        urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-           URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.accessScope)
-         ]
-         let url = urlComponents.url!
-        
-        let request = URLRequest(url: url)
-        webView.load(request)
     }
     
     private func setupProgressView() {
@@ -135,35 +123,17 @@ extension WebViewViewController: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
-        if let code = code(from: navigationAction) { //Она возвращает код авторизации, если он получен.
+        if let code = presenter.code(from: navigationAction) { //Она возвращает код авторизации, если он получен.
             //TODO: process code
             decisionHandler(.cancel) //3 и код успешно получен, отменяем навигационное действие
         } else {
             decisionHandler(.allow) //4 Если код не получен, разрешаем навигационное действие. Возможно, пользователь просто переходит на новую страницу в рамках процесса авторизации.
         }
     }
-    
-    private func code(from navigationAction: WKNavigationAction) -> String? {
-        if
-            let url = navigationAction.request.url,                         //1
-            let urlComponents = URLComponents(string: url.absoluteString),  //2
-            urlComponents.path == "/oauth/authorize/native",                //3
-            let items = urlComponents.queryItems,                           //4
-            let codeItem = items.first(where: { $0.name == "code" })        //5
-        {
-            return codeItem.value                                           //6
-        } else {
-            return nil
-        }
-    }
 }
-    
-extension WebViewViewController: WebViewViewControllerDelegate {
-    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        
-    }
-    
-    func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
-        dismiss(animated: true)
+
+extension WebViewViewController: WebViewProtocol {
+    func loadRequest(request: URLRequest) {
+        webView.load(request)
     }
 }

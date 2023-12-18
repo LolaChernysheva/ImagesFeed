@@ -10,7 +10,7 @@ import UIKit
 
 protocol CoordinatorProtocol {
     func showDetail(forImageNamed imageName: String)
-    func showWebView()
+    func showWebView(delegate: WebViewViewControllerDelegate)
 }
 
 final class MainCoordinator: CoordinatorProtocol {
@@ -28,8 +28,11 @@ final class MainCoordinator: CoordinatorProtocol {
         navigationController.pushViewController(detailViewController, animated: true)
     }
     
-    func showWebView() {
+    func showWebView(delegate: WebViewViewControllerDelegate) {
         let webView = WebViewViewController()
+        let presenter = WebViewPresenter(view: webView)
+        webView.presenter = presenter
+        webView.delegate = delegate
         webView.modalPresentationStyle = .fullScreen
         navigationController.pushViewController(webView, animated: true)
     }
