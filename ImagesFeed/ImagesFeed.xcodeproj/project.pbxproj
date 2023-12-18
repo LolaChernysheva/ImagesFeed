@@ -13,6 +13,8 @@
 		F334A5A62B0219B9007408F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F334A5A42B0219B9007408F8 /* Main.storyboard */; };
 		F334A5A82B0219BB007408F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F334A5A72B0219BB007408F8 /* Assets.xcassets */; };
 		F334A5AB2B0219BB007408F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F334A5A92B0219BB007408F8 /* LaunchScreen.storyboard */; };
+		F35933252B30640A00449F33 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35933242B30640A00449F33 /* NetworkManager.swift */; };
+		F35933272B30644100449F33 /* EndpointManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35933262B30644100449F33 /* EndpointManager.swift */; };
 		F384FD6F2B2B55D200889648 /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = F384FD6E2B2B55D200889648 /* OAuthTokenResponseBody.swift */; };
 		F38848552B18A876001B9869 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38848542B18A876001B9869 /* ProfileViewController.swift */; };
 		F38848572B18A883001B9869 /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38848562B18A883001B9869 /* ProfilePresenter.swift */; };
@@ -29,6 +31,7 @@
 		F3D023FA2B2C5912002706CA /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D023F92B2C5912002706CA /* WebViewViewController.swift */; };
 		F3D023FC2B2C5932002706CA /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D023FB2B2C5932002706CA /* AuthPresenter.swift */; };
 		F3D023FE2B2C59A8002706CA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D023FD2B2C59A8002706CA /* Constants.swift */; };
+		F3D0240F2B2C83DB002706CA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D0240E2B2C83DB002706CA /* HTTPMethod.swift */; };
 		F3FDC36E2B289DEC00310808 /* SingleImagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FDC36D2B289DEC00310808 /* SingleImagePresenter.swift */; };
 		F3FDC3702B289FEC00310808 /* SingleImageScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FDC36F2B289FEC00310808 /* SingleImageScreenModel.swift */; };
 /* End PBXBuildFile section */
@@ -42,6 +45,8 @@
 		F334A5A72B0219BB007408F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F334A5AA2B0219BB007408F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F334A5AC2B0219BB007408F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F35933242B30640A00449F33 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		F35933262B30644100449F33 /* EndpointManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointManager.swift; sourceTree = "<group>"; };
 		F384FD6E2B2B55D200889648 /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
 		F38848542B18A876001B9869 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F38848562B18A883001B9869 /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
@@ -58,6 +63,7 @@
 		F3D023F92B2C5912002706CA /* WebViewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		F3D023FB2B2C5932002706CA /* AuthPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthPresenter.swift; sourceTree = "<group>"; };
 		F3D023FD2B2C59A8002706CA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F3D0240E2B2C83DB002706CA /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		F3FDC36D2B289DEC00310808 /* SingleImagePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImagePresenter.swift; sourceTree = "<group>"; };
 		F3FDC36F2B289FEC00310808 /* SingleImageScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageScreenModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,13 +133,23 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		F359332A2B3066E300449F33 /* RequestModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = RequestModels;
+			sourceTree = "<group>";
+		};
+		F359332B2B3066EF00449F33 /* ResponseModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ResponseModels;
+			sourceTree = "<group>";
+		};
 		F384FD622B2B20BB00889648 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				F3D023FB2B2C5932002706CA /* AuthPresenter.swift */,
-				F3D023F92B2C5912002706CA /* WebViewViewController.swift */,
-				F3D023F72B2C58F1002706CA /* AuthScreenModel.swift */,
-				F3D023F52B2C5891002706CA /* AuthViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -159,6 +175,7 @@
 		F388485A2B18AEE3001B9869 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				F3D024072B2C8306002706CA /* Networking */,
 				F388485B2B18AEFB001B9869 /* Assembler.swift */,
 				F388485D2B18D047001B9869 /* Coordinator.swift */,
 			);
@@ -191,6 +208,38 @@
 				F3A3AC432B051A9E004DFA6F /* ImagesListCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		F3D024012B2C7089002706CA /* AuthController */ = {
+			isa = PBXGroup;
+			children = (
+				F3D023F72B2C58F1002706CA /* AuthScreenModel.swift */,
+				F3D023F52B2C5891002706CA /* AuthViewController.swift */,
+				F3D023FB2B2C5932002706CA /* AuthPresenter.swift */,
+			);
+			path = AuthController;
+			sourceTree = "<group>";
+		};
+		F3D024022B2C709C002706CA /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				F3D024052B2C726C002706CA /* AuthorizationService.swift */,
+				F3D023F92B2C5912002706CA /* WebViewViewController.swift */,
+				F3D024032B2C715F002706CA /* WebViewPresenter.swift */,
+			);
+			path = WebView;
+			sourceTree = "<group>";
+		};
+		F3D024072B2C8306002706CA /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				F359332B2B3066EF00449F33 /* ResponseModels */,
+				F359332A2B3066E300449F33 /* RequestModels */,
+				F3D0240E2B2C83DB002706CA /* HTTPMethod.swift */,
+				F35933242B30640A00449F33 /* NetworkManager.swift */,
+				F35933262B30644100449F33 /* EndpointManager.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,8 +321,10 @@
 				F3A3AC3C2B0510E7004DFA6F /* ImagesListScreenModel.swift in Sources */,
 				F38848592B18A892001B9869 /* ProfileModel.swift in Sources */,
 				F3A3AC3A2B0510D9004DFA6F /* ImagesListPresenter.swift in Sources */,
+				F3D0240F2B2C83DB002706CA /* HTTPMethod.swift in Sources */,
 				F388485C2B18AEFB001B9869 /* Assembler.swift in Sources */,
 				F3FDC36E2B289DEC00310808 /* SingleImagePresenter.swift in Sources */,
+				F35933272B30644100449F33 /* EndpointManager.swift in Sources */,
 				F38848612B18D266001B9869 /* SingleImageViewController.swift in Sources */,
 				F3D023FE2B2C59A8002706CA /* Constants.swift in Sources */,
 				F3D023F62B2C5891002706CA /* AuthViewController.swift in Sources */,
@@ -283,6 +334,7 @@
 				F388485E2B18D047001B9869 /* Coordinator.swift in Sources */,
 				F334A5A12B0219B9007408F8 /* SceneDelegate.swift in Sources */,
 				F38848552B18A876001B9869 /* ProfileViewController.swift in Sources */,
+				F35933252B30640A00449F33 /* NetworkManager.swift in Sources */,
 				F3A3AC442B051A9E004DFA6F /* ImagesListCell.swift in Sources */,
 				F3D023F82B2C58F1002706CA /* AuthScreenModel.swift in Sources */,
 			);

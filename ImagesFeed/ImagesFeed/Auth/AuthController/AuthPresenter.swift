@@ -30,7 +30,6 @@ final class AuthPresenter {
             buttonColor: UIColor.ypWhite,
             logoImage: UIImage(named: "Unsplash") ?? UIImage(),
             font: .boldSystemFont(ofSize: 17)
-            //font: UIFont(name: "SF Pro", size: 17)
       )
     }
     
@@ -43,7 +42,6 @@ final class AuthPresenter {
 extension AuthPresenter: AuthPresenterProtocol {
     func signIn() {
         coordinator?.showWebView()
-        print("Sign in")
     }
     
     func setup() {
