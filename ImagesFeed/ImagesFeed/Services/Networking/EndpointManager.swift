@@ -13,6 +13,7 @@ enum EndpointManager {
     
     case fetchData
     case postData(roomId: String)
+    case fetchToken
 
     var urlString: String {
         switch self {
@@ -20,6 +21,8 @@ enum EndpointManager {
             return "\(Self.baseUrl)/fetch"
         case let .postData(roomId):
             return "https://example.com/api/post/\(roomId)"
+        case .fetchToken:
+            return "https://unsplash.com/oauth/token"
         }
     }
     

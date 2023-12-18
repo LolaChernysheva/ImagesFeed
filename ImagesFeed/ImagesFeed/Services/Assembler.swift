@@ -37,24 +37,42 @@ final class Assembler {
     
     static func createImagesModule() -> UIViewController {
         let imagesViewController = ImagesListViewController()
-        let navigationController = UINavigationController(rootViewController: imagesViewController)
-        let coordinator = MainCoordinator(navigationController: navigationController)
+        let coordinator = MainCoordinator()
         let presenter = ImagesListPresenter(view: imagesViewController, coordinator: coordinator)
         imagesViewController.presenter = presenter
-        return navigationController
+        return imagesViewController
     }
     
     static func createSingleImegeModule(withImageNamed imageName: String) -> UIViewController {
-        let singleImageController = SingleImageViewController()
-        return singleImageController
+        let detailViewController = SingleImageViewController()
+        let presenter = SingleImagePresenter(view: detailViewController, imageName: imageName)
+        detailViewController.presenter = presenter
+        detailViewController.hidesBottomBarWhenPushed = true
+        return detailViewController
     }
     
     static func createAuthController() -> UIViewController {
         let authController = AuthViewController()
-        let navigationController = UINavigationController(rootViewController: authController)
-        let coordinator = MainCoordinator(navigationController: navigationController)
+        let coordinator = MainCoordinator()
         let presenter = AuthPresenter(view: authController, coordinator: coordinator)
         authController.presenter = presenter
-        return navigationController
+        return authController
+    }
+    
+    static func createWebViewModule(delegate: WebViewViewControllerDelegate) -> UIViewController {
+        let webView = WebViewViewController()
+        let presenter = WebViewPresenter(view: webView)
+        webView.presenter = presenter
+        webView.delegate = delegate
+        webView.modalPresentationStyle = .fullScreen
+        return webView
+    }
+    
+    static func createSplashModule() -> UIViewController {
+        let splashController = SplashViewController()
+        let coordinator = MainCoordinator()
+        let presenter = SplashPresenter(view: splashController, coordinator: coordinator)
+        splashController.presenter = presenter
+        return splashController
     }
 }

@@ -124,7 +124,8 @@ extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
         if let code = presenter.code(from: navigationAction) { //Она возвращает код авторизации, если он получен.
-            //TODO: process code
+            print("CODE\(code)")
+            delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             decisionHandler(.cancel) //3 и код успешно получен, отменяем навигационное действие
         } else {
             decisionHandler(.allow) //4 Если код не получен, разрешаем навигационное действие. Возможно, пользователь просто переходит на новую страницу в рамках процесса авторизации.

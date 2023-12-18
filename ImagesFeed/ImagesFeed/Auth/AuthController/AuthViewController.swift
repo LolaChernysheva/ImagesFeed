@@ -106,7 +106,7 @@ extension AuthViewController: AuthViewProtocol {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        
+        presenter.fetchAuthToken(code: code)
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
