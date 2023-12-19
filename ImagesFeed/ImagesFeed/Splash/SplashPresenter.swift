@@ -31,7 +31,9 @@ final class SplashPresenter: SplashPresenterProtocol {
                 coordinator?.showImagesModule(view: view)
             }
         } else {
-            coordinator?.showAuthController()
+            if let view = view as? UIViewController {
+                coordinator?.showAuthController(view: view)
+            }
         }
     }
 }

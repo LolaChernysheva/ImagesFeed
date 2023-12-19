@@ -124,7 +124,6 @@ extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
         if let code = presenter.code(from: navigationAction) { //Она возвращает код авторизации, если он получен.
-            print("CODE\(code)")
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             decisionHandler(.cancel) //3 и код успешно получен, отменяем навигационное действие
         } else {

@@ -10,9 +10,9 @@ import UIKit
 
 protocol CoordinatorProtocol {
     func showDetail(forImageNamed imageName: String)
-    func showWebView(delegate: WebViewViewControllerDelegate)
+    func showWebView(delegate: WebViewViewControllerDelegate, view: UIViewController)
     func showImagesModule(view: UIViewController)
-    func showAuthController()
+    func showAuthController(view: UIViewController)
 }
 
 final class MainCoordinator: CoordinatorProtocol {
@@ -22,10 +22,9 @@ final class MainCoordinator: CoordinatorProtocol {
         navigationController.pushViewController(detailViewController, animated: true)
     }
     
-    func showWebView(delegate: WebViewViewControllerDelegate) {
+    func showWebView(delegate: WebViewViewControllerDelegate, view: UIViewController) {
         let webView = Assembler.createWebViewModule(delegate: delegate)
-        let navigationController = UINavigationController(rootViewController: webView)
-        navigationController.pushViewController(webView, animated: true)
+        view.navigationController?.pushViewController(webView, animated: true)
     }
     
     func showImagesModule(view: UIViewController) {
@@ -34,10 +33,10 @@ final class MainCoordinator: CoordinatorProtocol {
         view.present(imagesVC, animated: true)
     }
     
-    func showAuthController() {
+    func showAuthController(view: UIViewController) {
         let authController = Assembler.createAuthController()
-        authController.modalPresentationStyle = .fullScreen
         let navigationController = UINavigationController(rootViewController: authController)
-        navigationController.pushViewController(authController, animated: true)
+        navigationController.modalPresentationStyle = .fullScreen
+        view.present(navigationController, animated: true)
     }
 }

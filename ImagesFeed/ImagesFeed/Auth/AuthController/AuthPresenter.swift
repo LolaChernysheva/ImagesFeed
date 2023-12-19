@@ -43,8 +43,9 @@ final class AuthPresenter {
 
 extension AuthPresenter: AuthPresenterProtocol {
     func signIn() {
-        if let view = view as? WebViewViewControllerDelegate {
-            coordinator?.showWebView(delegate: view)
+        if let view = view as? WebViewViewControllerDelegate,
+           let vc = self.view as? UIViewController {
+            coordinator?.showWebView(delegate: view, view: vc)
         }
     }
     
