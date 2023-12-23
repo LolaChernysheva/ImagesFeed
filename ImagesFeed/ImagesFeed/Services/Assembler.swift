@@ -37,7 +37,7 @@ final class Assembler {
     
     static func createImagesModule() -> UIViewController {
         let imagesViewController = ImagesListViewController()
-        let coordinator = MainCoordinator()
+        let coordinator = CoordinatorManager.shared
         let presenter = ImagesListPresenter(view: imagesViewController, coordinator: coordinator)
         imagesViewController.presenter = presenter
         return imagesViewController
@@ -51,9 +51,9 @@ final class Assembler {
         return detailViewController
     }
     
-    static func createAuthController() -> UIViewController {
-        let authController = AuthViewController()
-        let coordinator = MainCoordinator()
+    static func createAuthController(delegate: AuthViewControllerDelegate) -> UIViewController {
+        let authController = AuthViewController(delegate: delegate)
+        let coordinator = CoordinatorManager.shared
         let presenter = AuthPresenter(view: authController, coordinator: coordinator)
         authController.presenter = presenter
         return authController
@@ -70,7 +70,7 @@ final class Assembler {
     
     static func createSplashModule() -> UIViewController {
         let splashController = SplashViewController()
-        let coordinator = MainCoordinator()
+        let coordinator = CoordinatorManager.shared
         let presenter = SplashPresenter(view: splashController, coordinator: coordinator)
         splashController.presenter = presenter
         return splashController

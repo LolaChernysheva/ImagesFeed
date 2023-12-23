@@ -8,13 +8,12 @@
 
 import UIKit
 
-protocol SplashViewProtocol: AnyObject {
-    
-}
+protocol SplashViewProtocol: UIViewController, AuthViewControllerDelegate {}
 
-final class SplashViewController: UIViewController {
-    
+final class SplashViewController: UIViewController, SplashViewProtocol {
+
     var presenter: SplashPresenterProtocol!
+    private var networkService = NetworkManager.shared
     
     private var logoImageView = UIImageView()
     
@@ -47,11 +46,19 @@ final class SplashViewController: UIViewController {
     }
 }
 
-extension SplashViewController: SplashViewProtocol {
-    
-}
-
 private extension CGFloat {
     static let logoWidth: CGFloat = 75
     static let logoHeight: CGFloat = 77
+}
+
+extension SplashViewController: AuthViewControllerDelegate {
+    
+    func authViewController(_ vc: AuthViewProtocol, didAuthenticateWithCode code: String) {
+        print("Did received code: ", code)
+    }
+    
+    func authViewController(_ vc: AuthViewProtocol, didAuthenticateWithToken token: String) {
+        print("Did received token: ", token)
+        presenter.showNext()
+    }
 }

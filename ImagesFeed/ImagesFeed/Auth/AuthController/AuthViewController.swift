@@ -16,10 +16,15 @@ fileprivate struct Metrics {
     static let cornerRadius: CGFloat = 16
 }
 
-protocol AuthViewProtocol: AnyObject {
+protocol AuthViewProtocol: UIViewController {
     func displayData(data: AuthScreenModel)
-    
+    var delegate: AuthViewControllerDelegate? { get }
 }
+
+protocol AuthViewControllerDelegate: AnyObject {
+    func authViewController(_ vc: AuthViewProtocol, didAuthenticateWithCode code: String)
+    func authViewController(_ vc: AuthViewProtocol, didAuthenticateWithToken token: String)
+} 
 
 final class AuthViewController: UIViewController {
     
@@ -39,6 +44,16 @@ final class AuthViewController: UIViewController {
     }
     
     var presenter: AuthPresenter!
+    weak var delegate: AuthViewControllerDelegate?
+    
+    init(delegate: AuthViewControllerDelegate) {
+        self.delegate = delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - life cycle methods
     
@@ -107,6 +122,7 @@ extension AuthViewController: AuthViewProtocol {
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         presenter.fetchAuthToken(code: code)
+        delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

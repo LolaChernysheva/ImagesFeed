@@ -17,7 +17,8 @@ protocol AuthPresenterProtocol: AnyObject {
 final class AuthPresenter {
     
     weak var view: AuthViewProtocol?
-    var coordinator: CoordinatorProtocol?
+    
+    var coordinator: CoordinatorProtocol = CoordinatorManager.shared
     private var networkService = NetworkManager.shared
     
     init(view: AuthViewProtocol, coordinator: CoordinatorProtocol) {
@@ -43,9 +44,8 @@ final class AuthPresenter {
 
 extension AuthPresenter: AuthPresenterProtocol {
     func signIn() {
-        if let view = view as? WebViewViewControllerDelegate,
-           let vc = self.view as? UIViewController {
-            coordinator?.showWebView(delegate: view, view: vc)
+        if let view = view as? WebViewViewControllerDelegate {
+            coordinator.showWebView(delegate: view)
         }
     }
     
@@ -62,14 +62,17 @@ extension AuthPresenter: AuthPresenterProtocol {
             grantType: "authorization_code"
         )
 
-        networkService.request(endpoint: .fetchToken, method: .POST, body: requestModel) { (respnse: Result<OAuthTokenResponseBody, Error>) in
+        networkService.request(endpoint: .fetchToken, method: .POST, body: requestModel) { [weak self] (respnse: Result<OAuthTokenResponseBody, Error>) in
+            guard let self else { return }
             switch respnse {
             case let .success(result):
                 DispatchQueue.main.async {
-                    var storage = OAuth2TokenStorage.shared
+                    let storage = OAuth2TokenStorage.shared
                     storage.token = result.accessToken
+                    if let view = self.view {
+                        view.delegate?.authViewController(view, didAuthenticateWithToken:  result.accessToken)
+                    }
                 }
-                
             case let .failure(error):
                 print(error)
             }
@@ -92,11 +95,3 @@ struct FetchTokenRequestModel: Codable {
         case grantType = "grant_type"
     }
 }
-
-
-
-
-
-
-
-
