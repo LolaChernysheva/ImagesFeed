@@ -23,7 +23,6 @@ protocol AuthViewProtocol: UIViewController {
 
 protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewProtocol, didAuthenticateWithCode code: String)
-    func authViewController(_ vc: AuthViewProtocol, didAuthenticateWithToken token: String)
 } 
 
 final class AuthViewController: UIViewController {
@@ -121,7 +120,6 @@ extension AuthViewController: AuthViewProtocol {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        presenter.fetchAuthToken(code: code)
         delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
     

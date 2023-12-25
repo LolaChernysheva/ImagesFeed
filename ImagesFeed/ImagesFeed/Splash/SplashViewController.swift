@@ -13,8 +13,6 @@ protocol SplashViewProtocol: UIViewController, AuthViewControllerDelegate {}
 final class SplashViewController: UIViewController, SplashViewProtocol {
 
     var presenter: SplashPresenterProtocol!
-    private var networkService = NetworkManager.shared
-    
     private var logoImageView = UIImageView()
     
     override func viewDidLoad() {
@@ -55,10 +53,6 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     func authViewController(_ vc: AuthViewProtocol, didAuthenticateWithCode code: String) {
         print("Did received code: ", code)
-    }
-    
-    func authViewController(_ vc: AuthViewProtocol, didAuthenticateWithToken token: String) {
-        print("Did received token: ", token)
-        presenter.showNext()
+        presenter.fetchAuthToken(code: code)
     }
 }

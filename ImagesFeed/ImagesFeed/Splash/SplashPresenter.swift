@@ -10,6 +10,7 @@ import UIKit
 
 protocol SplashPresenterProtocol: AnyObject {
     func showNext()
+    func fetchAuthToken(code: String)
 }
 
 final class SplashPresenter: SplashPresenterProtocol {
@@ -18,6 +19,7 @@ final class SplashPresenter: SplashPresenterProtocol {
     var coordinator: CoordinatorProtocol
     
     private let storage = OAuth2TokenStorage.shared
+    private var oauth2Service = OAuth2Service.shared
     
     init(view: SplashViewProtocol?, coordinator: CoordinatorProtocol) {
         self.view = view
@@ -30,6 +32,19 @@ final class SplashPresenter: SplashPresenterProtocol {
             coordinator.showMainTabbarController()
         } else {
             coordinator.showAuthController(delegate: view)
+        }
+    }
+    
+    func fetchAuthToken(code: String) {
+        oauth2Service.fetchAuthToken(code: code) { [ weak self ] result in
+            guard let self else { return }
+            switch result {
+            case let .success(token):
+                oauth2Service.saveToken(token: token)
+                showNext()
+            case let .failure(error):
+                print(error.localizedDescription)
+            }
         }
     }
 }

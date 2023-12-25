@@ -21,8 +21,6 @@ class CoordinatorManager {
     
     static let shared = MainCoordinator()
 
-    var appCoordinator: CoordinatorProtocol?
-
     private init() {}
 }
 

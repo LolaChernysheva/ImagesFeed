@@ -83,7 +83,3 @@ private extension NetworkManager {
         return request
     }
 }
-
-extension NetworkManager {
-    
-}
