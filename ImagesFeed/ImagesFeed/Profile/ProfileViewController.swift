@@ -81,42 +81,42 @@ final class ProfileViewController: UIViewController {
     private func configureExitButton() {
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            exitButton.widthAnchor.constraint(equalToConstant: Metrics.exitBtnWidth),
-            exitButton.heightAnchor.constraint(equalToConstant: Metrics.exitBtnHeight),
+            exitButton.widthAnchor.constraint(equalToConstant: .exitBtnWidth),
+            exitButton.heightAnchor.constraint(equalToConstant: .exitBtnHeight),
             exitButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
-            exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Metrics.insets)
+            exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -.insets)
         ])
     }
     
     private func configureUserNameLabel() {
         usernameLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            usernameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: Metrics.spacer),
-            usernameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metrics.insets),
-            usernameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Metrics.insets),
-            usernameLabel.heightAnchor.constraint(equalToConstant: Metrics.labelHeight)
+            usernameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: .spacer),
+            usernameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .insets),
+            usernameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -.insets),
+            usernameLabel.heightAnchor.constraint(equalToConstant: .labelHeight)
         ])
     }
     
     private func configureProfileImageView() {
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            profileImageView.widthAnchor.constraint(equalToConstant: Metrics.avatarWidteight),
-            profileImageView.heightAnchor.constraint(equalToConstant: Metrics.avatarWidteight),
-            profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Metrics.insets),
-            profileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metrics.insets)
+            profileImageView.widthAnchor.constraint(equalToConstant: .avatarWidteight),
+            profileImageView.heightAnchor.constraint(equalToConstant: .avatarWidteight),
+            profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: .insets),
+            profileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .insets)
         ])
-        profileImageView.layer.cornerRadius = Metrics.avatarWidteight / 2
+        profileImageView.layer.cornerRadius = .avatarWidteight / 2
         profileImageView.clipsToBounds = true
     }
     
     private func configureBioLabel() {
         bioLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            bioLabel.topAnchor.constraint(equalTo: handleLabel.bottomAnchor, constant: Metrics.spacer),
-            bioLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metrics.insets),
-            bioLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Metrics.insets),
-            bioLabel.heightAnchor.constraint(equalToConstant: Metrics.labelHeight)
+            bioLabel.topAnchor.constraint(equalTo: handleLabel.bottomAnchor, constant: .spacer),
+            bioLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .insets),
+            bioLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -.insets),
+            bioLabel.heightAnchor.constraint(equalToConstant: .labelHeight)
             
         ])
     }
@@ -124,10 +124,10 @@ final class ProfileViewController: UIViewController {
     private func configureHandleLabel() {
         handleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            handleLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: Metrics.spacer),
-            handleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metrics.insets),
-            handleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Metrics.insets),
-            handleLabel.heightAnchor.constraint(equalToConstant: Metrics.labelHeight)
+            handleLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: .spacer),
+            handleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .insets),
+            handleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -.insets),
+            handleLabel.heightAnchor.constraint(equalToConstant: .labelHeight)
         ])
     }
 }
@@ -141,7 +141,7 @@ extension ProfileViewController: ProfileViewProtocol {
     }
 }
 
-fileprivate struct Metrics {
+fileprivate extension CGFloat {
     static let avatarWidteight: CGFloat = 70
     static let insets: CGFloat = 16
     static let spacer: CGFloat = 8

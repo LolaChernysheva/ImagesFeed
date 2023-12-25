@@ -24,7 +24,7 @@ final class ImagesListCell: UITableViewCell {
     private lazy var image: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = Metrics.cornerRadius
+        imageView.layer.cornerRadius = .cornerRadius
         imageView.layer.masksToBounds = true
         imageView.backgroundColor = .clear
         return imageView
@@ -122,10 +122,10 @@ final class ImagesListCell: UITableViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            image.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Metrics.imageInsets),
-            image.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Metrics.leadingTrailingInsets),
-            image.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metrics.leadingTrailingInsets),
-            image.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -Metrics.imageInsets),
+            image.topAnchor.constraint(equalTo: containerView.topAnchor, constant: .imageInsets),
+            image.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -.leadingTrailingInsets),
+            image.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: .leadingTrailingInsets),
+            image.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -.imageInsets),
         ])
     }
     
@@ -133,10 +133,10 @@ final class ImagesListCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: image.leadingAnchor, constant: Metrics.insets),
-            label.trailingAnchor.constraint(equalTo: image.trailingAnchor, constant: -Metrics.insets),
-            label.bottomAnchor.constraint(equalTo: image.bottomAnchor, constant: -Metrics.insets),
-            label.widthAnchor.constraint(equalToConstant: Metrics.labelWidth)
+            label.leadingAnchor.constraint(equalTo: image.leadingAnchor, constant: .insets),
+            label.trailingAnchor.constraint(equalTo: image.trailingAnchor, constant: -.insets),
+            label.bottomAnchor.constraint(equalTo: image.bottomAnchor, constant: -.insets),
+            label.widthAnchor.constraint(equalToConstant: .labelWidth)
         ])
     }
     
@@ -146,8 +146,8 @@ final class ImagesListCell: UITableViewCell {
         NSLayoutConstraint.activate([
             likeButton.topAnchor.constraint(equalTo: image.topAnchor),
             likeButton.trailingAnchor.constraint(equalTo: image.trailingAnchor),
-            likeButton.widthAnchor.constraint(equalToConstant: Metrics.buttonWidthHeight),
-            likeButton.heightAnchor.constraint(equalToConstant: Metrics.buttonWidthHeight)
+            likeButton.widthAnchor.constraint(equalToConstant: .buttonWidthHeight),
+            likeButton.heightAnchor.constraint(equalToConstant: .buttonWidthHeight)
         ])
     }
     
@@ -167,7 +167,7 @@ final class ImagesListCell: UITableViewCell {
     }
 }
 
-fileprivate struct Metrics {
+fileprivate extension CGFloat {
     static let insets: CGFloat = 8
     static let labelWidth: CGFloat = 18
     static let buttonWidthHeight: CGFloat = 44

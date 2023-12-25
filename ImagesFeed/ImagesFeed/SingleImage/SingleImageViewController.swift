@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate struct Metrics {
+fileprivate extension CGFloat {
     static let shareButtonSize: CGFloat = 50
 }
 
@@ -88,8 +88,8 @@ final class SingleImageViewController: UIViewController {
         NSLayoutConstraint.activate([
             sharedButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             sharedButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -17),
-            sharedButton.widthAnchor.constraint(equalToConstant: Metrics.shareButtonSize),
-            sharedButton.heightAnchor.constraint(equalToConstant: Metrics.shareButtonSize)
+            sharedButton.widthAnchor.constraint(equalToConstant: .shareButtonSize),
+            sharedButton.heightAnchor.constraint(equalToConstant: .shareButtonSize)
         ])
     }
     

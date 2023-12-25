@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate struct Metrics {
+fileprivate extension CGFloat {
     static let sighInButtonHeight: CGFloat = 48
     static let insets: CGFloat = 16
     static let bottomInsets: CGFloat = 90
@@ -29,7 +29,7 @@ final class AuthViewController: UIViewController {
     
     private lazy var signInButton: UIButton = {
         let button = UIButton()
-        button.layer.cornerRadius = Metrics.cornerRadius
+        button.layer.cornerRadius = .cornerRadius
         button.clipsToBounds = true
         return button
     }()
@@ -89,10 +89,10 @@ final class AuthViewController: UIViewController {
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            signInButton.heightAnchor.constraint(equalToConstant: Metrics.sighInButtonHeight),
-            signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Metrics.insets),
-            signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metrics.insets),
-            signInButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Metrics.bottomInsets)
+            signInButton.heightAnchor.constraint(equalToConstant: .sighInButtonHeight),
+            signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -.insets),
+            signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .insets),
+            signInButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -.bottomInsets)
         ])
     }
     
@@ -102,8 +102,8 @@ final class AuthViewController: UIViewController {
         NSLayoutConstraint.activate([
             logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoImageView.widthAnchor.constraint(equalToConstant: Metrics.logoSize),
-            logoImageView.heightAnchor.constraint(equalToConstant: Metrics.logoSize)
+            logoImageView.widthAnchor.constraint(equalToConstant: .logoSize),
+            logoImageView.heightAnchor.constraint(equalToConstant: .logoSize)
         ])
     }
     
