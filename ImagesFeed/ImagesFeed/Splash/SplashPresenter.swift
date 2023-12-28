@@ -42,7 +42,9 @@ final class SplashPresenter: SplashPresenterProtocol {
             case let .success(token):
                 oauth2Service.saveToken(token: token)
                 showNext()
+                view?.hideActivityIndicator()
             case let .failure(error):
+                view?.showActivityIndicator()
                 print(error.localizedDescription)
             }
         }

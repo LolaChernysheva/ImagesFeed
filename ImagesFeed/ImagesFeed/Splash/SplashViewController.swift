@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import ProgressHUD
 
-protocol SplashViewProtocol: UIViewController, AuthViewControllerDelegate {}
+protocol SplashViewProtocol: UIViewController, AuthViewControllerDelegate {
+    func showActivityIndicator()
+    func hideActivityIndicator()
+}
 
 final class SplashViewController: UIViewController, SplashViewProtocol {
 
@@ -41,6 +45,14 @@ final class SplashViewController: UIViewController, SplashViewProtocol {
             logoImageView.widthAnchor.constraint(equalToConstant: .logoWidth),
             logoImageView.heightAnchor.constraint(equalToConstant: .logoHeight)
         ])
+    }
+    
+    func showActivityIndicator() {
+        ProgressHUD.animate()
+    }
+    
+    func hideActivityIndicator() {
+        ProgressHUD.bannerHide()
     }
 }
 
