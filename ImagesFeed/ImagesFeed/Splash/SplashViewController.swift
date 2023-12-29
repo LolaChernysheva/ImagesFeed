@@ -52,7 +52,7 @@ final class SplashViewController: UIViewController, SplashViewProtocol {
     }
     
     func hideActivityIndicator() {
-        ProgressHUD.bannerHide()
+        ProgressHUD.dismiss()
     }
 }
 

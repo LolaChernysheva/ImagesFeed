@@ -34,8 +34,9 @@ final class SplashPresenter: SplashPresenterProtocol {
             coordinator.showAuthController(delegate: view)
         }
     }
-    
+
     func fetchAuthToken(code: String) {
+        view?.showActivityIndicator()
         oauth2Service.fetchAuthToken(code: code) { [ weak self ] result in
             guard let self else { return }
             switch result {
@@ -44,7 +45,6 @@ final class SplashPresenter: SplashPresenterProtocol {
                 showNext()
                 view?.hideActivityIndicator()
             case let .failure(error):
-                view?.showActivityIndicator()
                 print(error.localizedDescription)
             }
         }
