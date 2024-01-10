@@ -57,10 +57,14 @@ final class ProfileViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        presenter.fetchUserInfo()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        presenter.loadProfile()
     }
     
     private func configureView() {

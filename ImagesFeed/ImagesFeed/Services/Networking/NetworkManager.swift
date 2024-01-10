@@ -9,7 +9,6 @@
 import Foundation
 
 final class NetworkManager {
-    
     static let shared = NetworkManager()
     private let session: URLSession
     
@@ -17,25 +16,37 @@ final class NetworkManager {
         self.session = URLSession(configuration: .default)
     }
     
-    func request<T: Codable>(endpoint: EndpointManager, method: HTTPMethod, body: [String: Any]? = nil, completion: @escaping (Result<T, Error>) -> Void) {
-        performRequest(endpoint: endpoint, method: method, body: body, completion: completion)
+    func request<T: Codable>(
+        endpoint: EndpointManager,
+        method: HTTPMethod,
+        body: Body? = nil,
+        headers: [String: String]? = nil,
+        completion: @escaping (Result<T, Error>
+    ) -> Void) {
+        performRequest(
+            endpoint: endpoint,
+            method: method,
+            body: body,
+            headers: headers,
+            completion: completion
+        )
     }
     
-    func request<T: Codable>(endpoint: EndpointManager, method: HTTPMethod, body: Codable? = nil, completion: @escaping (Result<T, Error>) -> Void) {
-        performRequest(endpoint: endpoint, method: method, body: body, completion: completion)
-    }
-    
-    func request<T: Codable>(endpoint: EndpointManager, method: HTTPMethod, body: Data? = nil, completion: @escaping (Result<T, Error>) -> Void) {
-        performRequest(endpoint: endpoint, method: method, body: body, completion: completion)
-    }
-    
-    private func performRequest<T: Codable>(endpoint: EndpointManager, method: HTTPMethod, body: Any?, completion: @escaping (Result<T, Error>) -> Void) {
-        guard let request = Self.buildRequest(endpoint: endpoint, method: method, body: body) else {
+    private func performRequest<T: Codable>(endpoint: EndpointManager, method: HTTPMethod, body: Body?, headers: [String: String]?, completion: @escaping (Result<T, Error>) -> Void) {
+        var request = Self.buildRequest(endpoint: endpoint, method: method, body: body)
+        
+        if let headers = headers {
+            headers.forEach { key, value in
+                request?.setValue(value, forHTTPHeaderField: key)
+            }
+        }
+        
+        guard let finalRequest = request else {
             completion(.failure(NSError(domain: "", code: -1, userInfo: nil)))
             return
         }
         
-        let task = session.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: finalRequest) { data, response, error in
             DispatchQueue.main.async {
                 if let error = error {
                     completion(.failure(error))
@@ -66,20 +77,32 @@ final class NetworkManager {
 
 private extension NetworkManager {
     
-    static func buildRequest(endpoint: EndpointManager, method: HTTPMethod, body: Any? = nil) -> URLRequest? {
+    private static func buildRequest(endpoint: EndpointManager, method: HTTPMethod, body: Body? = nil) -> URLRequest? {
         guard let url = URL(string: endpoint.urlString) else { return nil }
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         
-        if let bodyData = body as? Data {
-            request.httpBody = bodyData
-        } else if let bodyObject = body as? Encodable {
-            request.httpBody = try? JSONEncoder().encode(bodyObject)
-        } else if let bodyDict = body as? [String: Any] {
-            request.httpBody = try? JSONSerialization.data(withJSONObject: bodyDict, options: [])
+        if let body {
+            switch body {
+            case let .dict(bodyDict):
+                request.httpBody = try? JSONSerialization.data(withJSONObject: bodyDict, options: [])
+            case let .data(bodyData):
+                request.httpBody = bodyData
+            case let .encodable(bodyObject):
+                request.httpBody = try? JSONEncoder().encode(bodyObject)
+            }
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         return request
+    }
+}
+
+extension NetworkManager {
+    
+    enum Body {
+        case dict([String: Any])
+        case data(Data)
+        case encodable(Encodable)
     }
 }

@@ -25,7 +25,7 @@ final class OAuth2Service {
             grantType: "authorization_code"
         )
 
-        networkService.request(endpoint: .fetchToken, method: .POST, body: requestModel) { [weak self] (respnse: Result<OAuthTokenResponseBody, Error>) in
+        networkService.request(endpoint: .fetchToken, method: .POST, body: .encodable(requestModel)) { [weak self] (respnse: Result<OAuthTokenResponseBody, Error>) in
             guard let self else { return }
             switch respnse {
             case let .success(result):

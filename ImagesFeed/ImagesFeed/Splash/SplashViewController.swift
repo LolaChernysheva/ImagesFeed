@@ -48,11 +48,11 @@ final class SplashViewController: UIViewController, SplashViewProtocol {
     }
     
     func showActivityIndicator() {
-        ProgressHUD.animate()
+        UIBlockingProgressHUD.show()
     }
     
     func hideActivityIndicator() {
-        ProgressHUD.dismiss()
+        UIBlockingProgressHUD.dismiss()
     }
 }
 
