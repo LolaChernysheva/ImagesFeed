@@ -19,16 +19,14 @@ final class ProfileService {
             endpoint: .fetchUserInfo,
             method: .GET,
             headers: headers
-        ) { [ weak self ] (response: Result<ProfileResponceModel, Error>) in
+        ) { (response: Result<ProfileResponceModel, Error>) in
             switch response {
             case let .success(result):
-                print("===\(result)")
                 DispatchQueue.main.async {
                     completion(.success(result))
                 }
             case let .failure(error):
-                print("====\(error.localizedDescription)")
-                
+                completion(.failure(error))
             }
         }
     }

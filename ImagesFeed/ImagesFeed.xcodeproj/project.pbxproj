@@ -13,6 +13,8 @@
 		F334A5A62B0219B9007408F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F334A5A42B0219B9007408F8 /* Main.storyboard */; };
 		F334A5A82B0219BB007408F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F334A5A72B0219BB007408F8 /* Assets.xcassets */; };
 		F334A5AB2B0219BB007408F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F334A5A92B0219BB007408F8 /* LaunchScreen.storyboard */; };
+		F334D65D2B501E9B000551D0 /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F334D65C2B501E9B000551D0 /* ProfileImageService.swift */; };
+		F334D65F2B501F0A000551D0 /* UserResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F334D65E2B501F0A000551D0 /* UserResult.swift */; };
 		F34DC2422B3970800074E367 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34DC2412B3970800074E367 /* OAuth2Service.swift */; };
 		F34DC2442B3972640074E367 /* FetchTokenRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34DC2432B3972640074E367 /* FetchTokenRequestModel.swift */; };
 		F35933252B30640A00449F33 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35933242B30640A00449F33 /* NetworkManager.swift */; };
@@ -55,6 +57,8 @@
 		F334A5A72B0219BB007408F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F334A5AA2B0219BB007408F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F334A5AC2B0219BB007408F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F334D65C2B501E9B000551D0 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
+		F334D65E2B501F0A000551D0 /* UserResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResult.swift; sourceTree = "<group>"; };
 		F34DC2412B3970800074E367 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		F34DC2432B3972640074E367 /* FetchTokenRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchTokenRequestModel.swift; sourceTree = "<group>"; };
 		F35933242B30640A00449F33 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -167,6 +171,7 @@
 			children = (
 				F36950272B45C46000A20FF2 /* ProfileResponceModel.swift */,
 				F384FD6E2B2B55D200889648 /* OAuthTokenResponseBody.swift */,
+				F334D65E2B501F0A000551D0 /* UserResult.swift */,
 			);
 			path = ResponseModels;
 			sourceTree = "<group>";
@@ -208,6 +213,7 @@
 				F359332C2B30A54100449F33 /* OAuth2TokenStorage.swift */,
 				F34DC2412B3970800074E367 /* OAuth2Service.swift */,
 				F36950252B45C3CE00A20FF2 /* ProfileService.swift */,
+				F334D65C2B501E9B000551D0 /* ProfileImageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -371,6 +377,7 @@
 				F3D023FE2B2C59A8002706CA /* Constants.swift in Sources */,
 				F3D023F62B2C5891002706CA /* AuthViewController.swift in Sources */,
 				F3FDC3702B289FEC00310808 /* SingleImageScreenModel.swift in Sources */,
+				F334D65D2B501E9B000551D0 /* ProfileImageService.swift in Sources */,
 				F359332F2B30A6AA00449F33 /* SplashViewController.swift in Sources */,
 				F310499F2B0B9DEC00A9D7E2 /* UIColor+Extensions.swift in Sources */,
 				F38848572B18A883001B9869 /* ProfilePresenter.swift in Sources */,
@@ -380,6 +387,7 @@
 				F35933252B30640A00449F33 /* NetworkManager.swift in Sources */,
 				F3A3AC442B051A9E004DFA6F /* ImagesListCell.swift in Sources */,
 				F3D023F82B2C58F1002706CA /* AuthScreenModel.swift in Sources */,
+				F334D65F2B501F0A000551D0 /* UserResult.swift in Sources */,
 				F36950242B45C06500A20FF2 /* UIBlockingProgressHUD.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

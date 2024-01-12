@@ -14,6 +14,7 @@ enum EndpointManager {
     case fetchData
     case fetchToken
     case fetchUserInfo
+    case fetchUserAvatar(userName: String)
 
     var urlString: String {
         switch self {
@@ -23,6 +24,8 @@ enum EndpointManager {
             return "https://unsplash.com/oauth/token"
         case .fetchUserInfo:
             return "https://api.unsplash.com/me"
+        case let .fetchUserAvatar(userName):
+            return "https://api.unsplash.com/users/\(userName)"
         }
     }
     

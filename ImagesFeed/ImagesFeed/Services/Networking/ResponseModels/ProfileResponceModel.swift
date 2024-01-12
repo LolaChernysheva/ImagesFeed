@@ -13,6 +13,9 @@ struct ProfileResponceModel: Codable {
     let firstName: String
     let lastName: String
     let bio: String?
+    var fullName: String {
+        firstName + lastName
+    }
     
     private enum CodingKeys: String, CodingKey {
         case userName = "username"
