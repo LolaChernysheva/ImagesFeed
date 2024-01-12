@@ -16,7 +16,7 @@ final class ProfileImageService {
     
     private init() {}
     
-    func fetchProfileImageURL(username: String, _ completion: @escaping (Result<UserResult, Error>) -> Void) {
+    private func fetchProfileImageURL(username: String, _ completion: @escaping (Result<UserResult, Error>) -> Void) {
         guard let token = OAuth2TokenStorage.shared.token else { return }
         let headers = ["Authorization": "Bearer \(token)"]
         networkService.request(endpoint: .fetchUserAvatar(userName: username), method: .GET, body: nil, headers: headers) { [ weak self ] (response: Result<UserResult, Error>) in
@@ -32,4 +32,18 @@ final class ProfileImageService {
             }
         }
     }
+
+    func fetchImage(userName: String, completion: @escaping (UserResult?) -> Void) {
+        fetchProfileImageURL(username: userName) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .success(result):
+                completion(result)
+            case let .failure(error):
+                print(error.localizedDescription)
+                completion(nil)
+            }
+        }
+    }
 }
+

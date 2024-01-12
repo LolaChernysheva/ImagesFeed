@@ -30,10 +30,10 @@ class ProfilePresenter: ProfilePresenterProtocol {
     
     func fetchUserInfo() {
         guard let token = OAuth2TokenStorage.shared.token else { return }
-        fetchProfile(token: token) { [ weak self ] profile in
+        service.fetchProfile(token: token) { [ weak self ] profile in
             guard let self else { return }
             if let profile {
-                fetchImage(userName: profile.userName) { result in
+                profileImageService.fetchImage(userName: profile.userName) { result in
                     if let result {
                         self.profileModel = .init(avatarString: result.profileImage.small, fullName: profile.fullName, nikName: profile.userName, bio: profile.bio ?? "")
                         DispatchQueue.main.async {
@@ -41,32 +41,6 @@ class ProfilePresenter: ProfilePresenterProtocol {
                         }
                     }
                 }
-            }
-        }
-    }
-
-    private func fetchProfile(token: String,  completion: @escaping (ProfileResponceModel?) -> Void) {
-        service.fetchProfile(token) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case let .success(profile):
-                completion(profile)
-            case let .failure(error):
-                print(error.localizedDescription)
-                completion(nil)
-            }
-        }
-    }
-
-    private func fetchImage(userName: String, completion: @escaping (UserResult?) -> Void) {
-        profileImageService.fetchProfileImageURL(username: userName) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case let .success(result):
-                completion(result)
-            case let .failure(error):
-                print(error.localizedDescription)
-                completion(nil)
             }
         }
     }
