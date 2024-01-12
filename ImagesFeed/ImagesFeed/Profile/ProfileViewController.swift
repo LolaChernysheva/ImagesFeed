@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 protocol ProfileViewProtocol: AnyObject {
     func displayProfile(with model: ProfileModel)
@@ -138,10 +139,15 @@ final class ProfileViewController: UIViewController {
 
 extension ProfileViewController: ProfileViewProtocol {
     func displayProfile(with model: ProfileModel) {
+        guard let imageString = model.avatarString else {
+            profileImageView.image = UIImage(named:"person.crop.circle.fill")
+            return
+        }
+        let imageURL = URL(string: imageString)
+        profileImageView.kf.setImage(with: imageURL, placeholder: UIImage(named:"person.crop.circle.fill"))
         usernameLabel.text = model.fullName
         handleLabel.text = model.nikName
         bioLabel.text = model.bio
-        profileImageView.image = UIImage(named: model.avatarString ?? "person.crop.circle.fill")
     }
 }
 
