@@ -14,6 +14,8 @@ final class OAuth2Service {
     
     static let shared = OAuth2Service()
     private let networkService = NetworkManager.shared
+    private var task: URLSessionTask?
+    private var lastCode: String?
     private init(){}
     
     func fetchAuthToken(code: String, completion: @escaping (Result<Token, Error>) -> Void) {
@@ -24,8 +26,12 @@ final class OAuth2Service {
             code: code,
             grantType: "authorization_code"
         )
-
-        networkService.request(endpoint: .fetchToken, method: .POST, body: .encodable(requestModel)) { [weak self] (respnse: Result<OAuthTokenResponseBody, Error>) in
+        
+        if lastCode == code { return }
+        task?.cancel()
+        lastCode = code
+        
+        task = networkService.request(endpoint: .fetchToken, method: .POST, body: .encodable(requestModel)) { [weak self] (respnse: Result<OAuthTokenResponseBody, Error>) in
             guard let self else { return }
             switch respnse {
             case let .success(result):
@@ -35,6 +41,7 @@ final class OAuth2Service {
             case let .failure(error):
                 print(error)
             }
+            task = nil
         }
     }
     
