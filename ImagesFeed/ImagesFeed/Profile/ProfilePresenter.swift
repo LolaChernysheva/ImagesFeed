@@ -13,9 +13,7 @@ protocol ProfilePresenterProtocol: AnyObject {
 }
 
 class ProfilePresenter: ProfilePresenterProtocol {
-    
-    private var service = ProfileService.shared
-    private var profileImageService = ProfileImageService.shared
+
     weak var view: ProfileViewProtocol?
     
     var profileModel: ProfileModel = .empty
@@ -29,19 +27,8 @@ class ProfilePresenter: ProfilePresenterProtocol {
     }
     
     func fetchUserInfo() {
-        guard let token = OAuth2TokenStorage.shared.token else { return }
-        service.fetchProfile(token: token) { [ weak self ] profile in
-            guard let self else { return }
-            if let profile {
-                profileImageService.fetchImage(userName: profile.userName) { result in
-                    if let result {
-                        self.profileModel = .init(avatarString: result.profileImage.small, fullName: profile.fullName, nikName: profile.userName, bio: profile.bio ?? "")
-                        DispatchQueue.main.async {
-                            self.loadProfile()
-                        }
-                    }
-                }
-            }
-        }
+        guard let account = StorageService.shared.userProfile else { return }
+        profileModel = .init(avatarString: account.avatar, fullName: account.fullName, nikName: account.userName, bio: account.bio)
+        loadProfile()
     }
 }

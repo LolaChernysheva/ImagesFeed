@@ -14,7 +14,7 @@ struct ProfileResponceModel: Codable {
     let lastName: String
     let bio: String?
     var fullName: String {
-        firstName + lastName
+        firstName + " " + lastName
     }
     
     private enum CodingKeys: String, CodingKey {
