@@ -20,6 +20,11 @@ class ProfilePresenter: ProfilePresenterProtocol {
     
     init(view: ProfileViewProtocol?) {
         self.view = view
+        addObserver()
+    }
+    
+    deinit {
+        removeObserver()
     }
     
     private func loadProfile() {
@@ -27,8 +32,30 @@ class ProfilePresenter: ProfilePresenterProtocol {
     }
     
     func fetchUserInfo() {
-        guard let account = StorageService.shared.userProfile else { return }
+        guard let account = AccountData.shared.userProfile else { return }
         profileModel = .init(avatarString: account.avatar, fullName: account.fullName, nikName: account.userName, bio: account.bio)
         loadProfile()
+    }
+    
+    private func addObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didAcountDataChange),
+            name: .didAccountDataChangeNotification,
+            object: nil
+        )
+    }
+   
+   private func removeObserver() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: .didAccountDataChangeNotification,
+            object: nil
+        )
+    }
+    
+    @objc
+    private func didAcountDataChange() {
+        fetchUserInfo()
     }
 }
