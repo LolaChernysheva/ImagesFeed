@@ -49,7 +49,9 @@ final class SplashPresenter: SplashPresenterProtocol {
                 showNext()
                 view?.hideActivityIndicator()
             case let .failure(error):
+                view?.showErrorAlert()
                 print(error.localizedDescription)
+                view?.hideActivityIndicator()
             }
         }
     }
@@ -73,6 +75,8 @@ final class SplashPresenter: SplashPresenterProtocol {
                             bio: profile.bio ?? "",
                             avatar: result.profileImage.small
                         )
+                    } else {
+                        self.view?.showErrorAlert()
                     }
                 }
             }
