@@ -35,6 +35,10 @@ final class ImagesListViewController: UIViewController {
     
     //MARK: - Lifrcycle methods
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.setup()
@@ -107,6 +111,13 @@ extension ImagesListViewController: UITableViewDelegate, UITableViewDataSource {
         switch cellType {
         case let .imageCell(model):
             model.completion()
+        }
+    }
+    
+    //вызывается прямо перед тем, как ячейка таблицы будет показана на экране.
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == presenter.photos.count {
+            presenter.fetchPhotosNextPage()
         }
     }
     

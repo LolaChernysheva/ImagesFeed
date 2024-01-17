@@ -7,12 +7,12 @@
 //
 
 import UIKit
+import Kingfisher
 
 struct ImageCellViewModel {
-    let imageName: String
-    let text: String
+    let imageString: String
+    let dateString: String
     let likeImageName: String
-    
     let completion: () -> (Void)
     let likeAction: (() -> Void)?
 }
@@ -59,8 +59,10 @@ final class ImagesListCell: UITableViewCell {
     
     var viewModel: ImageCellViewModel? {
         didSet {
-            image.image = UIImage(named: viewModel?.imageName ?? "")
-            label.text = viewModel?.text
+            if let url = URL(string: viewModel?.imageString ?? "") {
+                image.kf.setImage(with: url)
+            }
+            label.text = viewModel?.dateString
             likeButton.setImage(UIImage(named: viewModel?.likeImageName ?? ""), for: .normal)
             completion = viewModel?.completion
             likeAction = viewModel?.likeAction

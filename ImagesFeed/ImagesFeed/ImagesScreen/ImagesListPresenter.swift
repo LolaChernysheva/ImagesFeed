@@ -10,15 +10,17 @@ import UIKit
 
 protocol ImagesListPresenterProtocol: AnyObject {
     var view: ImagesListViewProtocol? { get }
+    var photos: [Photo] { get }
     func setup()
+    func fetchPhotosNextPage()
 }
 
 class ImagesListPresenter: ImagesListPresenterProtocol {
     
     typealias TableData = ImagesListScreenModel.TableData
     
-    private let photosNames: [String] = Array(0..<20).map{ "\($0)" }
-    
+    var photos: [Photo] = []
+    private let imagesService = ImagesListService.shared
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -35,25 +37,22 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     }
     
     private func buildScreenModel() -> ImagesListScreenModel {
-        let cells: [ImagesListScreenModel.TableData.Cell] = photosNames.enumerated().map { index, imageName in
-            let likeImageName = index % 2 == 0 ? "No Active" : "Active"
-            let cellViewModel = ImageCellViewModel(
-                imageName: imageName,
-                text: dateFormatter.string(from: Date()) ,
-                likeImageName: likeImageName,
+        let cells: [ImagesListScreenModel.TableData.Cell] = photos.map { photo in
+            let cellModel = ImageCellViewModel(
+                imageString: photo.largeImageURL,
+                dateString: dateFormatter.string(from: photo.createdAt ?? Date()),
+                likeImageName: photo.isLiked ? "Active" :  "No Active",
                 completion: { [ weak self ] in
                     guard let self = self else { return }
-                    self.coordinator?.showDetail(forImageNamed: imageName)
-                }, likeAction: {
+                    self.coordinator?.showDetail(forImageNamed: photo.largeImageURL)
+                },
+                likeAction: {
                     //MARK: - TODO
                 })
-            return .imageCell(cellViewModel)
+            return .imageCell(cellModel)
         }
-        
         return .init(
-            tableData: .init(sections: [ .simpleSection(cells: cells)]),
-            backbroundColor: UIColor.ypBlack
-            )
+            tableData: .init(sections: [.simpleSection(cells: cells)]), backbroundColor: UIColor.ypBlack)
     }
     
     private func render(reloadTableData: Bool = true) {
@@ -64,5 +63,9 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
 
     func setup() {
         render()
+    }
+    
+    func fetchPhotosNextPage() {
+        imagesService.fetchPhotosNextPage()
     }
 }
