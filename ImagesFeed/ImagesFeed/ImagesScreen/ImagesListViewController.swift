@@ -137,5 +137,8 @@ extension ImagesListViewController: UITableViewDelegate, UITableViewDataSource {
 extension ImagesListViewController: ImagesListViewProtocol {
     func displayData(data: ImagesListScreenModel, reloadData: Bool) {
         screenModel = data
+        if reloadData {
+            tableView.reloadData()
+        }
     }
 }

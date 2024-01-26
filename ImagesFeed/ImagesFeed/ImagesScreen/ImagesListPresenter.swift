@@ -35,7 +35,6 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     init(view: ImagesListViewProtocol?, coordinator: CoordinatorProtocol?) {
         self.view = view
         self.coordinator = coordinator
-        fetchPhotosNextPage()
     }
     
     private func buildScreenModel() -> ImagesListScreenModel {
@@ -64,14 +63,15 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     //MARK: - ImagesListPresenterProtocol
 
     func setup() {
+        fetchPhotosNextPage()
         render()
     }
     
     func fetchPhotosNextPage() {
         guard let token = OAuth2TokenStorage.shared.token else { return }
-        DispatchQueue.global().async { [ weak self ] in
-            guard let self else { return }
-            self.imagesService.fetchPhotosNextPage(token) { responce in
+        DispatchQueue.global().async { [imagesService] in
+            imagesService.fetchPhotosNextPage(token) { [weak self] responce in
+                guard let self else { return }
                 switch responce {
                 case let .success(photos):
                     DispatchQueue.main.async {
@@ -93,6 +93,7 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
                                 object: self,
                                 userInfo: [:]
                             )
+                        self.render(reloadTableData: true)
                     }
                 case let .failure(error):
                     print(error.localizedDescription)

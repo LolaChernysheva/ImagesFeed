@@ -24,7 +24,7 @@ final class NetworkManager {
         body: Body? = nil,
         headers: [String: String]? = nil,
         completion: @escaping (Result<T, Error>
-    ) -> Void) -> URLSessionTask? {
+        ) -> Void) -> URLSessionTask? {
         performRequest(
             endpoint: endpoint,
             method: method,
@@ -34,7 +34,13 @@ final class NetworkManager {
         )
     }
     
-    private func performRequest<T: Codable>(endpoint: EndpointManager, method: HTTPMethod, body: Body?, headers: [String: String]?, completion: @escaping (Result<T, Error>) -> Void) -> URLSessionTask? {
+    private func performRequest<T: Codable>(
+        endpoint: EndpointManager,
+        method: HTTPMethod,
+        body: Body?,
+        headers: [String: String]?,
+        completion: @escaping (Result<T, Error>) -> Void
+    ) -> URLSessionTask? {
         var request = Self.buildRequest(endpoint: endpoint, method: method, body: body)
         
         if let headers = headers {

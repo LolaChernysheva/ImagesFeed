@@ -28,27 +28,28 @@ final class ImagesListService {
     
     func fetchPhotosNextPage(_ token: String, completion: @escaping (Result<[PhotoResult], Error>) -> Void) {
         let headers = ["Authorization": "Bearer \(token)"]
+        if self.task != nil {
+            return
+        }
         task = networkManager.request(
             endpoint: .fetchPhotos,
-            method: .GET, headers: headers) { [ weak self ] (response: Result<PhotosResponce, Error>) in
-                guard let self else { return }
-                
-                if self.task != nil {
-                    return
-                }
-                
-                switch response {
-                case let .success(result):
-                    let nextPage = lastLoadedPage == nil
-                    ? 1
-                    : lastLoadedPage! + 1
-                    completion(.success(result.photos))
-                    self.lastLoadedPage = nextPage
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-                task = nil
+            method: .GET,
+            headers: headers
+        ) { [ weak self ] (response: Result<[PhotoResult], Error>) in
+            guard let self else { return }
+            
+            switch response {
+            case let .success(result):
+                let nextPage = lastLoadedPage == nil
+                ? 1
+                : lastLoadedPage! + 1
+                completion(.success(result))
+                self.lastLoadedPage = nextPage
+            case let .failure(error):
+                completion(.failure(error))
             }
+            task = nil
+        }
     }
 }
 
