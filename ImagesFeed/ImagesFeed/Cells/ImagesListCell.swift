@@ -85,13 +85,14 @@ final class ImagesListCell: UITableViewCell {
         containerView.addSubview(image)
         containerView.addSubview(gradientView)
         image.addSubview(label)
-        image.addSubview(likeButton)
+        containerView.addSubview(likeButton)
         contentView.backgroundColor = .clear
         setupContainerView()
         setupImage()
         setupGradientView()
         setupLabel()
         setupLikeButton()
+        likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
     }
     
     private func setupGradientView() {
@@ -163,9 +164,18 @@ final class ImagesListCell: UITableViewCell {
         self.gradientLayer = gradientLayer
     }
     
+    @objc private func likeButtonTapped() {
+        likeAction?()
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientLayer?.frame = gradientView.bounds
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        image.kf.cancelDownloadTask()
     }
 }
 

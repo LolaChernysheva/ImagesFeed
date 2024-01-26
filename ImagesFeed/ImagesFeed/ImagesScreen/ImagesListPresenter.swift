@@ -48,7 +48,16 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
                     self.coordinator?.showDetail(forImageNamed: photo.largeImageURL)
                 },
                 likeAction: {
-                    //MARK: - TODO
+                    DispatchQueue.global().async {
+                        self.imagesService.changeLike(photoId: photo.id, isLike: photo.isLiked) { response in
+                            switch response {
+                            case let .success(photo):
+                                self.render(reloadTableData: true)
+                            case let .failure(error):
+                                print(error.localizedDescription)
+                            }
+                        }
+                    }
                 })
             return .imageCell(cellModel)
         }

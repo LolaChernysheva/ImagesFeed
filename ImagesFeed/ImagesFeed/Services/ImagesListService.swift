@@ -57,6 +57,22 @@ final class ImagesListService {
             task = nil
         }
     }
+    
+    func changeLike(photoId: String, isLike: Bool, _completion: @escaping (Result<PhotoResult, Error>)-> Void) {
+        guard let token = OAuth2TokenStorage.shared.token else { return }
+        let headers = ["Authorization": "Bearer \(token)"]
+        networkManager.request(
+            endpoint: .changeLike(photoId: photoId),
+            method: isLike ? .DELETE : .POST,
+            headers: headers) { (response: Result<PhotoResult, Error>) in
+                switch response {
+                case let .success(response):
+                    _completion(.success(response))
+                case let.failure(error):
+                    _completion(.failure(error))
+                }
+            }
+    }
 }
 
 extension Notification.Name {
