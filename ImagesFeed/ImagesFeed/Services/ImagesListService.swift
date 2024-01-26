@@ -23,18 +23,24 @@ final class ImagesListService {
     private let networkManager = NetworkManager.shared
     private var task: URLSessionTask?
     private var lastLoadedPage: Int?
+    private var photosCount = 10
     
     private init(){}
     
     func fetchPhotosNextPage(_ token: String, completion: @escaping (Result<[PhotoResult], Error>) -> Void) {
         let headers = ["Authorization": "Bearer \(token)"]
+        let params = [
+            "page": String(lastLoadedPage ?? 1),
+            "per_page": String(photosCount)
+        ]
         if self.task != nil {
             return
         }
         task = networkManager.request(
             endpoint: .fetchPhotos,
             method: .GET,
-            headers: headers
+            headers: headers,
+            queryParameters: params
         ) { [ weak self ] (response: Result<[PhotoResult], Error>) in
             guard let self else { return }
             

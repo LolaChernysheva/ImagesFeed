@@ -23,13 +23,14 @@ final class NetworkManager {
         method: HTTPMethod,
         body: Body? = nil,
         headers: [String: String]? = nil,
-        completion: @escaping (Result<T, Error>
-        ) -> Void) -> URLSessionTask? {
+        queryParameters: [String: String]? = nil,
+        completion: @escaping (Result<T, Error>) -> Void) -> URLSessionTask? {
         performRequest(
             endpoint: endpoint,
             method: method,
             body: body,
             headers: headers,
+            queryParameters: queryParameters,
             completion: completion
         )
     }
@@ -39,9 +40,11 @@ final class NetworkManager {
         method: HTTPMethod,
         body: Body?,
         headers: [String: String]?,
+        queryParameters: [String: String]?,
         completion: @escaping (Result<T, Error>) -> Void
     ) -> URLSessionTask? {
-        var request = Self.buildRequest(endpoint: endpoint, method: method, body: body)
+        
+        var request = Self.buildRequest(endpoint: endpoint, method: method, body: body, queryParameters: queryParameters)
         
         if let headers = headers {
             headers.forEach { key, value in
@@ -86,8 +89,14 @@ final class NetworkManager {
 
 private extension NetworkManager {
     
-    private static func buildRequest(endpoint: EndpointManager, method: HTTPMethod, body: Body? = nil) -> URLRequest? {
-        guard let url = URL(string: endpoint.urlString) else { return nil }
+    private static func buildRequest(endpoint: EndpointManager, method: HTTPMethod, body: Body? = nil, queryParameters: [String: String]? = nil) -> URLRequest? {
+        guard var urlComponents = URLComponents(string: endpoint.urlString) else { return nil }
+        
+        if let queryParameters = queryParameters, !queryParameters.isEmpty {
+            urlComponents.queryItems = queryParameters.map { URLQueryItem(name: $0.key, value: $0.value) }
+        }
+
+        guard let url = urlComponents.url else { return nil }
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         

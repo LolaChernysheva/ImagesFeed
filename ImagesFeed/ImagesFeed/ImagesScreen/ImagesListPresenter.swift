@@ -82,7 +82,7 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
                                 createdAt: self.dateFormatter.date(from: $0.createdAt),
                                 welcomeDescription: $0.description,
                                 thumbImageURL: $0.urls.thumb,
-                                largeImageURL: $0.urls.full,
+                                largeImageURL: $0.urls.small,
                                 isLiked: $0.isLiked
                             )
                         }
