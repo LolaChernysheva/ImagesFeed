@@ -19,8 +19,8 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     
     typealias TableData = ImagesListScreenModel.TableData
     
-    var photos: [Photo] = []
-    private let imagesService = ImagesListService.shared
+    private (set) var photos: [Photo] = []
+    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -30,10 +30,12 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
 
     weak var view: ImagesListViewProtocol?
     var coordinator: CoordinatorProtocol?
+    private let imagesService = ImagesListService.shared
     
     init(view: ImagesListViewProtocol?, coordinator: CoordinatorProtocol?) {
         self.view = view
         self.coordinator = coordinator
+        fetchPhotosNextPage()
     }
     
     private func buildScreenModel() -> ImagesListScreenModel {
@@ -66,6 +68,36 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     }
     
     func fetchPhotosNextPage() {
-        imagesService.fetchPhotosNextPage()
+        guard let token = OAuth2TokenStorage.shared.token else { return }
+        DispatchQueue.global().async { [ weak self ] in
+            guard let self else { return }
+            self.imagesService.fetchPhotosNextPage(token) { responce in
+                switch responce {
+                case let .success(photos):
+                    DispatchQueue.main.async {
+                        let newPhotos = photos.map {
+                            Photo(
+                                id: $0.id,
+                                size: CGSize(width: $0.width, height: $0.height),
+                                createdAt: self.dateFormatter.date(from: $0.createdAt),
+                                welcomeDescription: $0.description,
+                                thumbImageURL: $0.urls.thumb,
+                                largeImageURL: $0.urls.full,
+                                isLiked: $0.isLiked
+                            )
+                        }
+                        self.photos += newPhotos
+                        NotificationCenter.default
+                            .post(
+                                name: .imagesListServiceDidChange,
+                                object: self,
+                                userInfo: [:]
+                            )
+                    }
+                case let .failure(error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
 }
