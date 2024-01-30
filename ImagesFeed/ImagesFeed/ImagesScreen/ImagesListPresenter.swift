@@ -52,7 +52,22 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
                         self.imagesService.changeLike(photoId: photo.id, isLike: photo.isLiked) { response in
                             switch response {
                             case let .success(photo):
-                                self.render(reloadTableData: true)
+                                DispatchQueue.main.async {
+                                    if let index = self.photos.firstIndex(where: { $0.id == photo.id }) {
+                                        let photo = self.photos[index]
+                                        let newPhoto = Photo(
+                                            id: photo.id,
+                                            size: photo.size,
+                                            createdAt: photo.createdAt,
+                                            welcomeDescription: photo.welcomeDescription,
+                                            thumbImageURL: photo.thumbImageURL,
+                                            largeImageURL: photo.largeImageURL,
+                                            isLiked: !photo.isLiked
+                                        )
+                                        self.photos = self.photos.withReplaced(index: index, newValue: newPhoto)
+                                        self.render()
+                                    }
+                                }
                             case let .failure(error):
                                 print(error.localizedDescription)
                             }
@@ -109,5 +124,15 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
                 }
             }
         }
+    }
+}
+
+fileprivate extension Array {
+    func withReplaced(index: Int, newValue: Element) -> [Element] {
+        var modifiedArray = self
+        if index >= 0 && index < count {
+            modifiedArray[index] = newValue
+        }
+        return modifiedArray
     }
 }
