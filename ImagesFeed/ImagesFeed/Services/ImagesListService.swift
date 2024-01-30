@@ -12,14 +12,6 @@ final class ImagesListService {
     
     static let shared = ImagesListService()
     
-    //MARK: TODO - check format
-    
-    static let dateFormatter: ISO8601DateFormatter = {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime, .withDashSeparatorInDate, .withColonSeparatorInTime, .withTimeZone]
-        return formatter
-    }()
-
     private let networkManager = NetworkManager.shared
     private var task: URLSessionTask?
     private var lastLoadedPage: Int?

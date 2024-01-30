@@ -20,11 +20,17 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     typealias TableData = ImagesListScreenModel.TableData
     
     private (set) var photos: [Photo] = []
-    
-    private lazy var dateFormatter: DateFormatter = {
+
+    private lazy var isoFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withFullDate]
+        return formatter
+    }()
+
+    private lazy var displayDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
+        formatter.locale = Locale(identifier: "ru_RU")
+        formatter.dateFormat = "d MMMM yyyy"
         return formatter
     }()
 
@@ -38,10 +44,14 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     }
     
     private func buildScreenModel() -> ImagesListScreenModel {
+        
         let cells: [ImagesListScreenModel.TableData.Cell] = photos.map { photo in
+            let isoString = isoFormatter.string(from: photo.createdAt ?? Date())
+            let isoDate = isoFormatter.date(from: isoString)
+            let dateString = displayDateFormatter.string(from: isoDate ?? Date())
             let cellModel = ImageCellViewModel(
                 imageString: photo.largeImageURL,
-                dateString: dateFormatter.string(from: photo.createdAt ?? Date()),
+                dateString: dateString,
                 likeImageName: photo.isLiked ? "Active" :  "No Active",
                 completion: { [ weak self ] in
                     guard let self = self else { return }
@@ -100,10 +110,12 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
                 case let .success(photos):
                     DispatchQueue.main.async {
                         let newPhotos = photos.map {
-                            Photo(
+                            let isoDate = self.isoFormatter.date(from: $0.createdAt)
+                            let dateString = self.displayDateFormatter.string(from: isoDate ?? Date())
+                            return Photo(
                                 id: $0.id,
                                 size: CGSize(width: $0.width, height: $0.height),
-                                createdAt: self.dateFormatter.date(from: $0.createdAt),
+                                createdAt: self.displayDateFormatter.date(from: dateString),
                                 welcomeDescription: $0.description,
                                 thumbImageURL: $0.urls.thumb,
                                 largeImageURL: $0.urls.small,
