@@ -12,6 +12,10 @@ struct PhotosResponce: Codable {
     let photos: [PhotoResult]
 }
 
+struct PhotoLikeResponce: Codable {
+    let photo: PhotoResult
+}
+
 struct PhotoResult: Codable {
     let id: String
     let createdAt: String

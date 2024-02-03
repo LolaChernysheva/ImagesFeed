@@ -21,19 +21,6 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     
     private (set) var photos: [Photo] = []
 
-    private lazy var isoFormatter: ISO8601DateFormatter = {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withFullDate]
-        return formatter
-    }()
-
-    private lazy var displayDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ru_RU")
-        formatter.dateFormat = "d MMMM yyyy"
-        return formatter
-    }()
-
     weak var view: ImagesListViewProtocol?
     var coordinator: CoordinatorProtocol?
     private let imagesService = ImagesListService.shared
@@ -46,43 +33,18 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     private func buildScreenModel() -> ImagesListScreenModel {
         
         let cells: [ImagesListScreenModel.TableData.Cell] = photos.map { photo in
-            let isoString = isoFormatter.string(from: photo.createdAt ?? Date())
-            let isoDate = isoFormatter.date(from: isoString)
-            let dateString = displayDateFormatter.string(from: isoDate ?? Date())
+            let photoId = photo.id
             let cellModel = ImageCellViewModel(
                 imageString: photo.largeImageURL,
-                dateString: dateString,
+                size: photo.size,
+                dateString: (photo.createdAt ?? Date()).makeDisplayString(),
                 likeImageName: photo.isLiked ? "Active" :  "No Active",
                 completion: { [ weak self ] in
                     guard let self = self else { return }
                     self.coordinator?.showDetail(forImageNamed: photo.largeImageURL)
                 },
-                likeAction: {
-                    DispatchQueue.global().async {
-                        self.imagesService.changeLike(photoId: photo.id, isLike: photo.isLiked) { response in
-                            switch response {
-                            case let .success(photo):
-                                DispatchQueue.main.async {
-                                    if let index = self.photos.firstIndex(where: { $0.id == photo.id }) {
-                                        let photo = self.photos[index]
-                                        let newPhoto = Photo(
-                                            id: photo.id,
-                                            size: photo.size,
-                                            createdAt: photo.createdAt,
-                                            welcomeDescription: photo.welcomeDescription,
-                                            thumbImageURL: photo.thumbImageURL,
-                                            largeImageURL: photo.largeImageURL,
-                                            isLiked: !photo.isLiked
-                                        )
-                                        self.photos = self.photos.withReplaced(index: index, newValue: newPhoto)
-                                        self.render()
-                                    }
-                                }
-                            case let .failure(error):
-                                print(error.localizedDescription)
-                            }
-                        }
-                    }
+                likeAction: { [weak self] in
+                    self?.likeAction(photoId: photoId, isLiked: photo.isLiked)
                 })
             return .imageCell(cellModel)
         }
@@ -90,7 +52,7 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
             tableData: .init(sections: [.simpleSection(cells: cells)]), backbroundColor: UIColor.ypBlack)
     }
     
-    private func render(reloadTableData: Bool = true) {
+    private func render(reloadTableData: Bool = false) {
         view?.displayData(data: buildScreenModel(), reloadData: reloadTableData)
     }
     
@@ -109,19 +71,7 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
                 switch responce {
                 case let .success(photos):
                     DispatchQueue.main.async {
-                        let newPhotos = photos.map {
-                            let isoDate = self.isoFormatter.date(from: $0.createdAt)
-                            let dateString = self.displayDateFormatter.string(from: isoDate ?? Date())
-                            return Photo(
-                                id: $0.id,
-                                size: CGSize(width: $0.width, height: $0.height),
-                                createdAt: self.displayDateFormatter.date(from: dateString),
-                                welcomeDescription: $0.description,
-                                thumbImageURL: $0.urls.thumb,
-                                largeImageURL: $0.urls.small,
-                                isLiked: $0.isLiked
-                            )
-                        }
+                        let newPhotos = photos.map { $0.convertToPhoto() }
                         self.photos += newPhotos
                         NotificationCenter.default
                             .post(
@@ -139,7 +89,29 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     }
 }
 
+private extension ImagesListPresenter {
+    
+    func likeAction(photoId: String, isLiked: Bool) {
+        DispatchQueue.global().async {
+            self.imagesService.changeLike(photoId: photoId, isLike: isLiked) { response in
+                switch response {
+                case let .success(response):
+                    DispatchQueue.main.async { [weak self] in
+                        guard let self, let index = self.photos.firstIndex(where: { $0.id == photoId}) else { return }
+                        let newPhoto = response.photo.convertToPhoto()
+                        self.photos = self.photos.withReplaced(index: index, newValue: newPhoto)
+                        self.render(reloadTableData: true)
+                    }
+                case let .failure(error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+}
+
 fileprivate extension Array {
+    
     func withReplaced(index: Int, newValue: Element) -> [Element] {
         var modifiedArray = self
         if index >= 0 && index < count {

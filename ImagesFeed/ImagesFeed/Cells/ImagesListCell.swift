@@ -11,6 +11,7 @@ import Kingfisher
 
 struct ImageCellViewModel {
     let imageString: String
+    let size: CGSize
     let dateString: String
     let likeImageName: String
     let completion: () -> (Void)
@@ -176,6 +177,15 @@ final class ImagesListCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         image.kf.cancelDownloadTask()
+    }
+}
+
+extension ImageCellViewModel {
+    
+    func height(width: CGFloat) -> CGFloat {
+        let imageWidth = width - 2 * CGFloat.leadingTrailingInsets
+        let imageHeight = (size.height / size.width) * imageWidth
+        return imageHeight + 2 * CGFloat.imageInsets
     }
 }
 

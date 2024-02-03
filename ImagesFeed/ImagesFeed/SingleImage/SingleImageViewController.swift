@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 fileprivate extension CGFloat {
     static let shareButtonSize: CGFloat = 50
@@ -46,7 +47,8 @@ final class SingleImageViewController: UIViewController {
     
     private func setup() {
         sharedButton.setImage(UIImage(named: screenModel.sharedImageName), for: .normal)
-        imageView.image = UIImage(named: screenModel.imageName)
+        let imageURL = URL(string: screenModel.imageName)
+        imageView.kf.setImage(with: imageURL, placeholder: UIImage(named: "person.crop.circle.fill"))
     }
     
     private func setupView() {

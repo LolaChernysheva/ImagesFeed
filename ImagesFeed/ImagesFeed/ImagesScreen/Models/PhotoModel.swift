@@ -18,3 +18,17 @@ struct Photo {
     let isLiked: Bool
 }
 
+extension PhotoResult {
+    
+    func convertToPhoto() -> Photo {
+        Photo(
+            id: id,
+            size: CGSize(width: width, height: height),
+            createdAt: createdAt.isoDate(),
+            welcomeDescription: description,
+            thumbImageURL: urls.thumb,
+            largeImageURL: urls.small,
+            isLiked: isLiked
+        )
+    }
+}

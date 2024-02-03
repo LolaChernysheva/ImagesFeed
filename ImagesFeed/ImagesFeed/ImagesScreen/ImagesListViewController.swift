@@ -114,7 +114,6 @@ extension ImagesListViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    //вызывается прямо перед тем, как ячейка таблицы будет показана на экране.
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row + 1 == presenter.photos.count {
             presenter.fetchPhotosNextPage()
@@ -126,10 +125,21 @@ extension ImagesListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 0
-        
+        height(for: indexPath)
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        height(for: indexPath)
+    }
+    
+    private func height(for indexPath: IndexPath) -> CGFloat {
+        let cellType = tableDataCell(indexPath: indexPath)
+        switch cellType {
+        case let .imageCell(model):
+            let height = model.height(width: tableView.frame.width )
+            return height
+        }
+    }
 }
 
 //MARK: - ImagesListViewProtocol

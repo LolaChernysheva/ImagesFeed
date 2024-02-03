@@ -50,13 +50,13 @@ final class ImagesListService {
         }
     }
     
-    func changeLike(photoId: String, isLike: Bool, _completion: @escaping (Result<PhotoResult, Error>)-> Void) {
+    func changeLike(photoId: String, isLike: Bool, _completion: @escaping (Result<PhotoLikeResponce, Error>)-> Void) {
         guard let token = OAuth2TokenStorage.shared.token else { return }
         let headers = ["Authorization": "Bearer \(token)"]
         networkManager.request(
             endpoint: .changeLike(photoId: photoId),
             method: isLike ? .DELETE : .POST,
-            headers: headers) { (response: Result<PhotoResult, Error>) in
+            headers: headers) { (response: Result<PhotoLikeResponce, Error>) in
                 switch response {
                 case let .success(response):
                     _completion(.success(response))
