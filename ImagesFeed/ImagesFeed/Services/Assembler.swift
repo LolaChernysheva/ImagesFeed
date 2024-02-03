@@ -22,15 +22,16 @@ final class Assembler {
 
         let profileViewController = createProfileModule()
         let imagesViewController = createImagesModule()
+        let nc = UINavigationController(rootViewController: imagesViewController)
         profileViewController.tabBarItem = UITabBarItem(title: nil,
                                                         image: UIImage(systemName: "person.crop.circle"),
                                                         selectedImage: UIImage(systemName: " person.crop.circle.fill"))
-        imagesViewController.tabBarItem = UITabBarItem( title: nil,
+        nc.tabBarItem = UITabBarItem( title: nil,
                                                         image: UIImage(systemName: "square.stack"),
                                                         selectedImage: UIImage(systemName: "square.stack.fill"))
         tabBarController.tabBar.tintColor = UIColor.ypWhite
         tabBarController.tabBar.backgroundImage = UIImage()
-        tabBarController.viewControllers = [imagesViewController, profileViewController]
+        tabBarController.viewControllers = [nc, profileViewController]
 
         return tabBarController
     }

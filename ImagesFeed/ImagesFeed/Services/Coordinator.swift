@@ -56,15 +56,13 @@ extension MainCoordinator {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         let tabBarController = Assembler.createTabBarController()
         splashViewController = nil
-        window.rootViewController = tabBarController
+        rootViewController = tabBarController
     }
     
     func showDetail(forImageNamed imageName: String) {
-        let detailViewController = SingleImageViewController()
-        let presenter = SingleImagePresenter(view: detailViewController, imageName: imageName)
-        detailViewController.presenter = presenter
-        detailViewController.hidesBottomBarWhenPushed = true
-        rootViewController.present(detailViewController, animated: true)
+        let detailViewController = Assembler.createSingleImegeModule(withImageNamed: imageName)
+        detailViewController.modalPresentationStyle = .fullScreen
+        ((rootViewController as? UITabBarController)?.selectedViewController as? UINavigationController)?.pushViewController(detailViewController, animated: true)
     }
     
     func showWebView(delegate: WebViewViewControllerDelegate) {
