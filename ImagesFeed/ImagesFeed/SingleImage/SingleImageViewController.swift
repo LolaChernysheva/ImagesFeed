@@ -65,6 +65,9 @@ final class SingleImageViewController: UIViewController {
         let backItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(backAction))
         backItem.tintColor = .white
         self.navigationItem.leftBarButtonItem = backItem
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
     }
     
     @objc func backAction() {
