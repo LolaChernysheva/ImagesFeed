@@ -96,6 +96,10 @@ final class SingleImageViewController: UIViewController {
     }
     
     private func setupScrollView() {
+        scrollView.delegate = self
+        scrollView.minimumZoomScale = 1.0
+        scrollView.maximumZoomScale = 6.0
+        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -122,5 +126,13 @@ extension SingleImageViewController: SingleImageViewProtocol {
         let items = [image]
         let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
         present(activityViewController, animated: true, completion: nil)
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension SingleImageViewController: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return imageView
     }
 }
