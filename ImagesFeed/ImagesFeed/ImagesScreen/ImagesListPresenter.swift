@@ -25,7 +25,7 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     var coordinator: CoordinatorProtocol?
     private let imagesService = ImagesListService.shared
     
-    private var isLikeActionInProgress = false
+    private var photosIdInLikeProgress: Set<String> = []
     
     init(view: ImagesListViewProtocol?, coordinator: CoordinatorProtocol?) {
         self.view = view
@@ -48,7 +48,7 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
                 likeAction: { [weak self] in
                     self?.likeAction(photoId: photoId, isLiked: photo.isLiked)
                 }, 
-                isLikeBtnEnabled: !isLikeActionInProgress)
+                isLikeBtnEnabled: !photosIdInLikeProgress.contains(photoId))
             return .imageCell(cellModel)
         }
         return .init(
@@ -98,15 +98,16 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
 private extension ImagesListPresenter {
     
     func likeAction(photoId: String, isLiked: Bool) {
-        guard !isLikeActionInProgress else { return }
-        isLikeActionInProgress = true
+        guard !photosIdInLikeProgress.contains(photoId) else { return }
+        photosIdInLikeProgress.insert(photoId)
+        render(reloadTableData: true)
         DispatchQueue.global().async {
             self.imagesService.changeLike(photoId: photoId, isLike: isLiked) { response in
                 switch response {
                 case let .success(response):
                     DispatchQueue.main.async { [weak self] in
                         guard let self, let index = self.photos.firstIndex(where: { $0.id == photoId}) else { return }
-                        self.isLikeActionInProgress = false
+                        photosIdInLikeProgress.remove(photoId)
                         let newPhoto = response.photo.convertToPhoto()
                         self.photos = self.photos.withReplaced(index: index, newValue: newPhoto)
                         self.render(reloadTableData: true)
