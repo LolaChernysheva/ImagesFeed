@@ -30,4 +30,12 @@ class OAuth2TokenStorage {
     func hasToken() -> Bool {
         return KeychainWrapper.standard.hasValue(forKey: tokenKey)
     }
+    
+    func removeTokenData() {
+        if hasToken() {
+            KeychainWrapper.standard.removeObject(forKey: tokenKey)
+        } else {
+            return
+        }
+    }
 }

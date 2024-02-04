@@ -16,11 +16,13 @@ protocol ProfilePresenterProtocol: AnyObject {
 class ProfilePresenter: ProfilePresenterProtocol {
 
     weak var view: ProfileViewProtocol?
+    var coordinator: CoordinatorProtocol
     
     var profileModel: ProfileModel = .empty
     
-    init(view: ProfileViewProtocol?) {
+    init(view: ProfileViewProtocol?, coordinator: CoordinatorProtocol) {
         self.view = view
+        self.coordinator = coordinator
         addObserver()
     }
     
@@ -39,7 +41,9 @@ class ProfilePresenter: ProfilePresenterProtocol {
     }
     
     func logout() {
-        
+        OAuth2TokenStorage.shared.removeTokenData()
+        HTTPCookieStorage.shared.removeCookies(since: .distantPast)
+        coordinator.goToRootSplash()
     }
     
     private func addObserver() {

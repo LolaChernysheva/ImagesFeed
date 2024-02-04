@@ -15,6 +15,7 @@ protocol CoordinatorProtocol {
     func showDetail(forImageNamed imageName: String)
     func showWebView(delegate: WebViewViewControllerDelegate)
     func showAuthController(delegate: AuthViewControllerDelegate)
+    func goToRootSplash()
 }
 
 class CoordinatorManager {
@@ -79,5 +80,9 @@ extension MainCoordinator {
         let navigationController = UINavigationController(rootViewController: authController)
         navigationController.modalPresentationStyle = .fullScreen
         rootViewController = navigationController
+    }
+    
+    func goToRootSplash() {
+        showSplashScreen()
     }
 }

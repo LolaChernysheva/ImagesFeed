@@ -52,6 +52,7 @@ final class ProfileViewController: UIViewController {
     }()
     
     var presenter: ProfilePresenterProtocol!
+    
     private var model: ProfileModel = .empty {
         didSet {
             displayProfile(with: model)

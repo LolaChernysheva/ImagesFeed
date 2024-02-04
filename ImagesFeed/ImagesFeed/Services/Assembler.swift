@@ -12,7 +12,8 @@ final class Assembler {
     
     static func createProfileModule() -> UIViewController {
         let profileViewController = ProfileViewController()
-        let presenter = ProfilePresenter(view: profileViewController)
+        let coordinator = CoordinatorManager.shared
+        let presenter = ProfilePresenter(view: profileViewController, coordinator: coordinator)
         profileViewController.presenter = presenter
         return profileViewController
     }
