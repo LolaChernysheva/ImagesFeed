@@ -17,11 +17,3 @@ struct AuthScreenModel {
 
     static let empty: AuthScreenModel = .init(backgroundColor: .clear, buttonTitle: "", buttonColor: .clear, logoImage: UIImage(), font: UIFont())
 }
-
-//extension UIFont {
-//    convenience init(fontName: String, size: CGFloat, weight: UIFont.Weight) {
-//        let descriptor = UIFontDescriptor(name: fontName, size: size).withSymbolicTraits(.traitBold) ?? UIFontDescriptor()
-//        self.init(descriptor: descriptor, size: size)
-//    }
-//}
-//

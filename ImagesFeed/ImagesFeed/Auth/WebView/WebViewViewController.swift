@@ -20,11 +20,11 @@ protocol WebViewProtocol: AnyObject {
 
 final class WebViewViewController: UIViewController {
     
+    var presenter: WebViewPresenter!
+    weak var delegate: WebViewViewControllerDelegate?
+    
     private var webView = WKWebView()
     private var progressView = UIProgressView()
-    
-    weak var delegate: WebViewViewControllerDelegate?
-    var presenter: WebViewPresenter!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -47,6 +47,19 @@ final class WebViewViewController: UIViewController {
         super.viewDidDisappear(animated)
         webView.removeObserver(self, forKeyPath:
         #keyPath(WKWebView.estimatedProgress), context: nil)
+    }
+    
+    override func observeValue(
+        forKeyPath keyPath: String?,
+        of object: Any?,
+        change: [NSKeyValueChangeKey : Any]?,
+        context: UnsafeMutableRawPointer?
+    ) {
+        if keyPath == #keyPath(WKWebView.estimatedProgress) {
+            updateProgress()
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
     }
     
     private func setupProgressView() {
@@ -91,25 +104,12 @@ final class WebViewViewController: UIViewController {
     }
     
     private func updateProgress() {
-        progressView.progress = Float(webView.estimatedProgress)
+        progressView.setProgress(Float(webView.estimatedProgress), animated: true)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
     
     @objc private func backButtonTapped() {
         delegate?.webViewViewControllerDidCancel(self)
-    }
-    
-    override func observeValue(
-        forKeyPath keyPath: String?,
-        of object: Any?,
-        change: [NSKeyValueChangeKey : Any]?,
-        context: UnsafeMutableRawPointer?
-    ) {
-        if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgress()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
     }
     
 }

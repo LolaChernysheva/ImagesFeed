@@ -39,7 +39,7 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
             let cellModel = ImageCellViewModel(
                 imageString: photo.largeImageURL,
                 size: photo.size,
-                dateString: (photo.createdAt ?? Date()).makeDisplayString(),
+                dateString: (photo.createdAt)?.makeDisplayString() ?? "",
                 likeImageName: photo.isLiked ? "Active" :  "No Active",
                 completion: { [ weak self ] in
                     guard let self = self else { return }
@@ -101,8 +101,8 @@ private extension ImagesListPresenter {
         guard !photosIdInLikeProgress.contains(photoId) else { return }
         photosIdInLikeProgress.insert(photoId)
         render(reloadTableData: true)
-        DispatchQueue.global().async {
-            self.imagesService.changeLike(photoId: photoId, isLike: isLiked) { response in
+        DispatchQueue.global().async { [ weak self ] in
+            self?.imagesService.changeLike(photoId: photoId, isLike: isLiked) { response in
                 switch response {
                 case let .success(response):
                     DispatchQueue.main.async { [weak self] in
