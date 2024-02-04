@@ -16,6 +16,7 @@ struct ImageCellViewModel {
     let likeImageName: String
     let completion: () -> (Void)
     let likeAction: (() -> Void)?
+    var isLikeBtnEnabled: Bool
 }
 
 final class ImagesListCell: UITableViewCell {
@@ -153,6 +154,7 @@ final class ImagesListCell: UITableViewCell {
             likeButton.widthAnchor.constraint(equalToConstant: .buttonWidthHeight),
             likeButton.heightAnchor.constraint(equalToConstant: .buttonWidthHeight)
         ])
+        likeButton.isEnabled = viewModel?.isLikeBtnEnabled ?? true
     }
     
     private func addGradient() {
