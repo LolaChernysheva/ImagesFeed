@@ -10,6 +10,7 @@ import Foundation
 
 protocol ProfilePresenterProtocol: AnyObject {
     func fetchUserInfo()
+    func logout()
 }
 
 class ProfilePresenter: ProfilePresenterProtocol {
@@ -35,6 +36,10 @@ class ProfilePresenter: ProfilePresenterProtocol {
         guard let account = AccountData.shared.userProfile else { return }
         profileModel = .init(avatarString: account.avatar, fullName: account.fullName, nikName: account.userName, bio: account.bio)
         loadProfile()
+    }
+    
+    func logout() {
+        
     }
     
     private func addObserver() {

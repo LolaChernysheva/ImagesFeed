@@ -84,6 +84,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func configureExitButton() {
+        exitButton.addTarget(self, action: #selector(exitButtonTapped), for: .touchUpInside)
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             exitButton.widthAnchor.constraint(equalToConstant: .exitBtnWidth),
@@ -134,6 +135,21 @@ final class ProfileViewController: UIViewController {
             handleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -.insets),
             handleLabel.heightAnchor.constraint(equalToConstant: .labelHeight)
         ])
+    }
+    
+    @objc private func exitButtonTapped() {
+        showExitAlert()
+    }
+    
+    private func showExitAlert() {
+        let logoutAlert = UIAlertController(title: "Пока, пока!", message: "Уверены, что хотите выйти?", preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+            guard let self else { return }
+            self.presenter.logout()
+        }
+        let noAction = UIAlertAction(title: "Нет", style: .cancel)
+        logoutAlert.addActions([yesAction, noAction])
+        present(logoutAlert, animated: true)
     }
 }
 
