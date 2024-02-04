@@ -68,6 +68,7 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     
     func fetchPhotosNextPage() {
         guard let token = OAuth2TokenStorage.shared.token else { return }
+        view?.showActivityIndicator()
         DispatchQueue.global().async { [imagesService] in
             imagesService.fetchPhotosNextPage(token) { [weak self] responce in
                 guard let self else { return }
@@ -84,8 +85,10 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
                             )
                         self.render(reloadTableData: true)
                     }
+                    view?.hideActivityIndicator()
                 case let .failure(error):
                     print(error.localizedDescription)
+                    view?.hideActivityIndicator()
                 }
             }
         }

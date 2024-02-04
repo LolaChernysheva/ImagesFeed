@@ -10,7 +10,8 @@ import UIKit
 
 protocol ImagesListViewProtocol: AnyObject {
     func displayData(data: ImagesListScreenModel, reloadData: Bool)
-    
+    func showActivityIndicator()
+    func hideActivityIndicator()
 }
 
 final class ImagesListViewController: UIViewController {
@@ -150,5 +151,13 @@ extension ImagesListViewController: ImagesListViewProtocol {
         if reloadData {
             tableView.reloadData()
         }
+    }
+    
+    func showActivityIndicator() {
+        UIBlockingProgressHUD.show()
+    }
+    
+    func hideActivityIndicator() {
+        UIBlockingProgressHUD.dismiss()
     }
 }
