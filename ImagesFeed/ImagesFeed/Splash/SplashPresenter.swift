@@ -58,8 +58,7 @@ final class SplashPresenter: SplashPresenterProtocol {
     
     func fetchUserInfo() {
         guard let token = OAuth2TokenStorage.shared.token else { return }
-        service.fetchProfile(token: token) { [ weak self ] profile in
-            guard let self else { return }
+        service.fetchProfile(token: token) { [ self ] profile in
             if let profile {
                 AccountData.shared.userProfile = AccoundData(
                     userName: profile.userName,
