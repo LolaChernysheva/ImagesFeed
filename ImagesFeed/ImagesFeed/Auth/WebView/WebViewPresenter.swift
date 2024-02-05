@@ -12,18 +12,31 @@ import WebKit
 protocol WebViewPresenterProtocol: AnyObject {
     func setupURL()
     func code(from navigationAction: WKNavigationAction) -> String?
+    func didUpdateProgressValue(_ newValue: Double)
 }
 
-final class WebViewPresenter: WebViewPresenterProtocol {
-    
-    private let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+final class WebViewPresenter {
     
     weak var view: WebViewProtocol?
     
     init(view: WebViewProtocol? = nil) {
         self.view = view
     }
-    
+
+    private func createAuthorizeURL() -> URL? {
+        var urlComponents = URLComponents(string: AuthConfiguration.UnsplashAuthorizeURLString)
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "client_id", value: AuthConfiguration.accessKey),
+            URLQueryItem(name: "redirect_uri", value: AuthConfiguration.redirectURI),
+            URLQueryItem(name: "response_type", value: "code"),
+            URLQueryItem(name: "scope", value: AuthConfiguration.accessScope)
+        ]
+        
+        return urlComponents?.url
+    }
+}
+
+extension WebViewPresenter: WebViewPresenterProtocol {
     func setupURL() {
         guard let url = createAuthorizeURL() else {
             print("Невозможно создать URL")
@@ -48,15 +61,17 @@ final class WebViewPresenter: WebViewPresenterProtocol {
         }
     }
     
-    private func createAuthorizeURL() -> URL? {
-        var urlComponents = URLComponents(string: unsplashAuthorizeURLString)
-        urlComponents?.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.accessScope)
-        ]
+    func didUpdateProgressValue(_ newValue: Double) {
+        let newProgressValue = Float(newValue)
+        view?.setProgressValue(newProgressValue)
         
-        return urlComponents?.url
+        let shouldHideProgress = shouldHideProgress(for: newProgressValue)
+        view?.setProgressHidden(shouldHideProgress)
+    }
+}
+
+private extension WebViewPresenter {
+    func shouldHideProgress(for value: Float) -> Bool {
+        abs(value - 1.0) <= 0.0001
     }
 }

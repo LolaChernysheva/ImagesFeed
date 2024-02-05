@@ -101,8 +101,8 @@ private extension ImagesListPresenter {
         guard !photosIdInLikeProgress.contains(photoId) else { return }
         photosIdInLikeProgress.insert(photoId)
         render(reloadTableData: true)
-        DispatchQueue.global().async {
-            self.imagesService.changeLike(photoId: photoId, isLike: isLiked) { response in
+        DispatchQueue.global().async { [ weak self ] in
+            self?.imagesService.changeLike(photoId: photoId, isLike: isLiked) { response in
                 switch response {
                 case let .success(response):
                     DispatchQueue.main.async { [weak self] in

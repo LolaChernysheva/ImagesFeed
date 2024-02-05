@@ -16,6 +16,8 @@ protocol WebViewViewControllerDelegate: AnyObject {
 
 protocol WebViewProtocol: AnyObject {
     func loadRequest(request: URLRequest)
+    func setProgressValue(_ newValue: Float)
+    func setProgressHidden(_ isHidden: Bool)
 }
 
 final class WebViewViewController: UIViewController {
@@ -90,11 +92,6 @@ final class WebViewViewController: UIViewController {
         ])
     }
     
-    private func updateProgress() {
-        progressView.progress = Float(webView.estimatedProgress)
-        progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
-    }
-    
     @objc private func backButtonTapped() {
         delegate?.webViewViewControllerDidCancel(self)
     }
@@ -106,7 +103,7 @@ final class WebViewViewController: UIViewController {
         context: UnsafeMutableRawPointer?
     ) {
         if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgress()
+            presenter?.didUpdateProgressValue(webView.estimatedProgress)
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
@@ -135,5 +132,13 @@ extension WebViewViewController: WKNavigationDelegate {
 extension WebViewViewController: WebViewProtocol {
     func loadRequest(request: URLRequest) {
         webView.load(request)
+    }
+    
+    func setProgressValue(_ newValue: Float) {
+        progressView.progress = newValue
+    }
+
+    func setProgressHidden(_ isHidden: Bool) {
+        progressView.isHidden = isHidden
     }
 }
