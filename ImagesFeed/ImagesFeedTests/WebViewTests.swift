@@ -12,14 +12,20 @@ import XCTest
 class WebViewMock: WebViewProtocol {
     
     var lastRequest: URLRequest?
+    var lastProgressValue: Float?
+    var lastProgressIsHidden: Bool?
     
     func loadRequest(request: URLRequest) {
         lastRequest = request
     }
     
-    func setProgressValue(_ newValue: Float) {}
+    func setProgressValue(_ newValue: Float) {
+        lastProgressValue = newValue
+    }
     
-    func setProgressHidden(_ isHidden: Bool) {}
+    func setProgressHidden(_ isHidden: Bool) {
+        lastProgressIsHidden = isHidden
+    }
 }
 
 final class WebViewTests: XCTestCase {
@@ -50,5 +56,21 @@ final class WebViewTests: XCTestCase {
         let expectedURLString = "https://unsplash.com/oauth/authorize?client_id=\(AuthConfiguration.accessKey)&redirect_uri=\(AuthConfiguration.redirectURI)&response_type=code&scope=\(AuthConfiguration.accessScope)"
         
         XCTAssertEqual(request.url?.absoluteString, expectedURLString, "loadRequest was called with incorrect URL")
+    }
+    
+    func testDidUpdateProgressValue() {
+
+        let webViewMock = WebViewMock()
+        let presenter = WebViewPresenter(view: webViewMock)
+        
+        // Тестирование метода didUpdateProgressValue с прогрессом, который не должен быть скрыт
+        presenter.didUpdateProgressValue(0.5)
+        XCTAssertEqual(webViewMock.lastProgressValue, 0.5, "Progress value did not match")
+        XCTAssertFalse(webViewMock.lastProgressIsHidden ?? true, "Progress should not be hidden")
+        
+        // Тестирование метода didUpdateProgressValue с прогрессом, который должен быть скрыт
+        presenter.didUpdateProgressValue(1.0)
+        XCTAssertEqual(webViewMock.lastProgressValue, 1.0, "Progress value did not match")
+        XCTAssertTrue(webViewMock.lastProgressIsHidden ?? false, "Progress should be hidden")
     }
 }
