@@ -63,6 +63,7 @@ final class WebViewViewController: UIViewController {
     }
     
     private func setupView() {
+        webView.accessibilityIdentifier = AccessibilityIdentifiers.Views.webView
         view.addSubview(webView)
         view.addSubview(progressView)
         setupWebViewContraints()

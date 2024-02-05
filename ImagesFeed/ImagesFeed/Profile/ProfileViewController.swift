@@ -48,6 +48,7 @@ final class ProfileViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(systemName: "ipad.and.arrow.forward"), for: .normal)
         button.tintColor = UIColor.ypRed
+        button.accessibilityIdentifier = AccessibilityIdentifiers.Buttons.logoutButton
         return button
     }()
     
@@ -148,6 +149,7 @@ final class ProfileViewController: UIViewController {
             guard let self else { return }
             self.presenter.logout()
         }
+        yesAction.accessibilityIdentifier = AccessibilityIdentifiers.Buttons.logoutAlertYesButton
         let noAction = UIAlertAction(title: "Нет", style: .cancel)
         logoutAlert.addActions([yesAction, noAction])
         present(logoutAlert, animated: true)

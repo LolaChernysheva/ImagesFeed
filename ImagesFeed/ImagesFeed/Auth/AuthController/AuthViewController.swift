@@ -31,6 +31,7 @@ final class AuthViewController: UIViewController {
         let button = UIButton()
         button.layer.cornerRadius = .cornerRadius
         button.clipsToBounds = true
+        button.accessibilityIdentifier = AccessibilityIdentifiers.Buttons.autnButton
         return button
     }()
     
