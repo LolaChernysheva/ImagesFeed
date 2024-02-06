@@ -8,6 +8,11 @@
 
 import Foundation
 
+protocol ImagesListServiceProtocol {
+    func fetchPhotosNextPage(_ token: String, completion: @escaping (Result<[PhotoResult], Error>) -> Void)
+    func changeLike(photoId: String, isLike: Bool, _completion: @escaping (Result<PhotoLikeResponce, Error>)-> Void)
+}
+
 final class ImagesListService {
     
     static let shared = ImagesListService()
@@ -18,6 +23,11 @@ final class ImagesListService {
     private var photosCount = 10
     
     private init(){}
+}
+
+//MARK: - ImagesListServiceProtocol
+
+extension ImagesListService: ImagesListServiceProtocol {
     
     func fetchPhotosNextPage(_ token: String, completion: @escaping (Result<[PhotoResult], Error>) -> Void) {
         let headers = ["Authorization": "Bearer \(token)"]

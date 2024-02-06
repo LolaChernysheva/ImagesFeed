@@ -50,6 +50,7 @@ private extension ProfilePresenterTests {
     
     class MockProfileViewController: ProfileViewProtocol {
         var model = ProfileModel.empty
+        
         func displayProfile(with model: ProfileModel) {
             self.model = model
         }
