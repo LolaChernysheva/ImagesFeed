@@ -13,35 +13,35 @@ final class ProfilePresenterTests: XCTestCase {
     
     private var coordinator: DummyCoordinator!
     private var view: MockProfileViewController!
-    private var presenter: ProfilePresenter!
+    private var sut: ProfilePresenter!
     
     override func setUp() {
         view = MockProfileViewController()
         coordinator = DummyCoordinator()
-        presenter = ProfilePresenter(view: view, coordinator: coordinator)
+        sut = ProfilePresenter(view: view, coordinator: coordinator)
         OAuth2TokenStorage.shared.token = "Foo"
     }
     
     override func tearDown() {
         view = nil
-        presenter = nil
+        sut = nil
         AccountData.shared.userProfile = nil
         OAuth2TokenStorage.shared.token = nil
     }
     
     func testFetchUserInfo() {
         AccountData.shared.userProfile = .init(userName: "Bar", fullName: "Baz", bio: "Foo", avatar: "")
-        presenter.fetchUserInfo()
+        sut.fetchUserInfo()
         XCTAssertEqual(view.model.fullName, "Baz")
     }
     
     func testLogoutRemoveToken() {
-        presenter.logout()
+        sut.logout()
         XCTAssertFalse(OAuth2TokenStorage.shared.hasToken())
     }
     
     func testLogoutMoveToRootSplash() {
-        presenter.logout()
+        sut.logout()
         XCTAssertTrue(coordinator.didCallGoToSplash)
     }
 }
