@@ -23,7 +23,7 @@ extension Date {
         return formatter
     }()
     
-    func makeDisplayString() -> String {
+    func makeDisplayString() -> String? {
         let isoString = Self.isoFormatter.string(from: self)
         let isoDate = Self.isoFormatter.date(from: isoString)
         let dateString = Self.displayDateFormatter.string(from: isoDate ?? Date())

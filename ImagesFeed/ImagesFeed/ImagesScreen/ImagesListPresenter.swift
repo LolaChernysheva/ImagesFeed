@@ -39,7 +39,7 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
             let cellModel = ImageCellViewModel(
                 imageString: photo.largeImageURL,
                 size: photo.size,
-                dateString: (photo.createdAt ?? Date()).makeDisplayString(),
+                dateString: (photo.createdAt)?.makeDisplayString() ?? "",
                 likeImageName: photo.isLiked ? "Active" :  "No Active",
                 completion: { [ weak self ] in
                     guard let self = self else { return }

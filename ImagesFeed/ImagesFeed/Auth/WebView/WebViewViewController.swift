@@ -22,11 +22,11 @@ protocol WebViewProtocol: AnyObject {
 
 final class WebViewViewController: UIViewController {
     
+    var presenter: WebViewPresenter!
+    weak var delegate: WebViewViewControllerDelegate?
+    
     private var webView = WKWebView()
     private var progressView = UIProgressView()
-    
-    weak var delegate: WebViewViewControllerDelegate?
-    var presenter: WebViewPresenter!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -109,7 +109,6 @@ final class WebViewViewController: UIViewController {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
-    
 }
 
 extension WebViewViewController: WKNavigationDelegate {
