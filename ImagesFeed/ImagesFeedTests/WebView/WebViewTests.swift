@@ -8,25 +8,7 @@
 
 import XCTest
 @testable import ImagesFeed
-
-class WebViewMock: WebViewProtocol {
-    
-    var lastRequest: URLRequest?
-    var lastProgressValue: Float?
-    var lastProgressIsHidden: Bool?
-    
-    func loadRequest(request: URLRequest) {
-        lastRequest = request
-    }
-    
-    func setProgressValue(_ newValue: Float) {
-        lastProgressValue = newValue
-    }
-    
-    func setProgressHidden(_ isHidden: Bool) {
-        lastProgressIsHidden = isHidden
-    }
-}
+import WebKit
 
 final class WebViewTests: XCTestCase {
     
@@ -72,5 +54,71 @@ final class WebViewTests: XCTestCase {
         presenter.didUpdateProgressValue(1.0)
         XCTAssertEqual(webViewMock.lastProgressValue, 1.0, "Progress value did not match")
         XCTAssertTrue(webViewMock.lastProgressIsHidden ?? false, "Progress should be hidden")
+    }
+    
+    func testCodeFromURL() {
+        // Arrange
+        let expectedCode = "77777"
+        let url = URL(string: "https://example.com/oauth/authorize/native?code=\(expectedCode)")!
+        let request = URLRequest(url: url)
+        let navigationAction = MockNavigationAction(request: request)
+        
+        let mockDelegate = MockWebViewViewControllerDelegate()
+        let presenter = WebViewPresenter()
+        let viewController = WebViewViewController()
+        viewController.presenter = presenter
+        viewController.delegate = mockDelegate
+
+        // Act
+        let extractedCode = presenter.code(from: navigationAction)
+
+        // Assert
+        XCTAssertEqual(extractedCode, expectedCode, "Extracted code should match the expected code.")
+    }
+}
+
+private extension WebViewTests {
+    class WebViewMock: WebViewProtocol {
+        
+        var lastRequest: URLRequest?
+        var lastProgressValue: Float?
+        var lastProgressIsHidden: Bool?
+        
+        func loadRequest(request: URLRequest) {
+            lastRequest = request
+        }
+        
+        func setProgressValue(_ newValue: Float) {
+            lastProgressValue = newValue
+        }
+        
+        func setProgressHidden(_ isHidden: Bool) {
+            lastProgressIsHidden = isHidden
+        }
+    }
+    
+    class MockNavigationAction: WKNavigationAction {
+        var testRequest: URLRequest
+        override var request: URLRequest {
+            return testRequest
+        }
+
+        init(request: URLRequest) {
+            self.testRequest = request
+            super.init()
+        }
+    }
+
+    class MockWebViewViewControllerDelegate: WebViewViewControllerDelegate {
+        var authenticationCode: String?
+        var didCancelAuthentication = false
+
+        func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+            authenticationCode = code
+        }
+
+        func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
+            didCancelAuthentication = true
+        }
     }
 }
