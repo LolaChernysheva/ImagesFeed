@@ -75,6 +75,7 @@ final class ImagesListCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         configureCell()
+        likeButton.accessibilityIdentifier = "likeButton"
     }
     
     required init?(coder: NSCoder) {

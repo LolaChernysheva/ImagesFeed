@@ -145,6 +145,7 @@ final class ProfileViewController: UIViewController {
     
     private func showExitAlert() {
         let logoutAlert = UIAlertController(title: "Пока, пока!", message: "Уверены, что хотите выйти?", preferredStyle: .alert)
+        logoutAlert.view.accessibilityIdentifier = AccessibilityIdentifiers.Alerts.logoutAlert
         let yesAction = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
             guard let self else { return }
             self.presenter.logout()

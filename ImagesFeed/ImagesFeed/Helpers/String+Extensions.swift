@@ -8,15 +8,19 @@
 
 import Foundation
 
-enum AccessibilityIdentifiers {
-    enum Buttons {
-        static let autnButton = "Authenticate"
-        static let detailNavBackButton = "nav back button white"
-        static let logoutButton = "logout button"
-        static let logoutAlertYesButton = "Logout Yes"
-    }
-    
-    enum Views {
-        static let webView = "UnsplashWebView"
-    }
+ enum AccessibilityIdentifiers {
+     enum Buttons {
+         static let autnButton = "Authenticate"
+         static let detailNavBackButton = "nav back button white"
+         static let logoutButton = "logout button"
+         static let logoutAlertYesButton = "Logout Yes"
+     }
+     
+     enum Views {
+         static let webView = "UnsplashWebView"
+     }
+     
+     enum Alerts {
+         static let logoutAlert = "logoutAlert"
+     }
 }

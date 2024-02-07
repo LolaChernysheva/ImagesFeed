@@ -1,16 +1,15 @@
 //
-//  ImagesFeedUITestsLaunchTests.swift
-//  ImagesFeedUITests
+//  UITestsLaunchTests.swift
+//  UITests
 //
-//  Created by Lolita Chernysheva on 05.02.2024.
+//  Created by Lolita Chernysheva on 06.02.2024.
 //  
 //
 
 import XCTest
-@testable import ImagesFeed
 
-final class ImagesFeedUITestsLaunchTests: XCTestCase {
-    
+final class UITestsLaunchTests: XCTestCase {
+
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }
@@ -32,4 +31,3 @@ final class ImagesFeedUITestsLaunchTests: XCTestCase {
         add(attachment)
     }
 }
-
