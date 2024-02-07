@@ -16,9 +16,8 @@ protocol ProfilePresenterProtocol: AnyObject {
 class ProfilePresenter: ProfilePresenterProtocol {
 
     weak var view: ProfileViewProtocol?
-    var coordinator: CoordinatorProtocol
-    
-    var profileModel: ProfileModel = .empty
+    private var coordinator: CoordinatorProtocol
+    private var profileModel: ProfileModel = .empty
     
     init(view: ProfileViewProtocol?, coordinator: CoordinatorProtocol) {
         self.view = view

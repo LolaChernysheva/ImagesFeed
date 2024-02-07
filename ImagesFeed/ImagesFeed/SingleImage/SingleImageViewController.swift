@@ -63,6 +63,7 @@ final class SingleImageViewController: UIViewController {
     
     private func setupNavigationBar() {
         let backItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(backAction))
+        backItem.accessibilityIdentifier = AccessibilityIdentifiers.Buttons.detailNavBackButton
         backItem.tintColor = .white
         self.navigationItem.leftBarButtonItem = backItem
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)

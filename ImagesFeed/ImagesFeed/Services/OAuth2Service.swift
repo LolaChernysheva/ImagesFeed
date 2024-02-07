@@ -20,9 +20,9 @@ final class OAuth2Service {
     
     func fetchAuthToken(code: String, completion: @escaping (Result<Token, Error>) -> Void) {
         let requestModel = FetchTokenRequestModel(
-            clientId: Constants.accessKey,
-            clientSecret: Constants.secretKey,
-            redirectUri: Constants.redirectURI,
+            clientId: AuthConfiguration.accessKey,
+            clientSecret: AuthConfiguration.secretKey,
+            redirectUri: AuthConfiguration.redirectURI,
             code: code,
             grantType: "authorization_code"
         )

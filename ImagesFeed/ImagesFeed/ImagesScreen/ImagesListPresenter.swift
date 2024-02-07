@@ -23,13 +23,18 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
 
     weak var view: ImagesListViewProtocol?
     var coordinator: CoordinatorProtocol?
-    private let imagesService = ImagesListService.shared
+    private let imagesService: ImagesListServiceProtocol
     
     private var photosIdInLikeProgress: Set<String> = []
     
-    init(view: ImagesListViewProtocol?, coordinator: CoordinatorProtocol?) {
+    init(
+        view: ImagesListViewProtocol?,
+        coordinator: CoordinatorProtocol?,
+        imagesService: ImagesListServiceProtocol = ImagesListService.shared
+    ) {
         self.view = view
         self.coordinator = coordinator
+        self.imagesService = imagesService
     }
     
     private func buildScreenModel() -> ImagesListScreenModel {
